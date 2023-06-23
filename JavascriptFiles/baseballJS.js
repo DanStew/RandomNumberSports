@@ -1,7 +1,11 @@
 //Initialising key variables
 let screenMode = 0;
 let opposingTeam = "The Computer";
+let userTeam = "User Team"
 let passScreenSize = true;
+
+//Initialising game variables
+let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = false 
 
 //Initialising the timer increment in the system
 let counter=0
@@ -10,6 +14,7 @@ let counter=0
 let screen0Displayed = false
 let screen1SDisplayed = false
 let screen2SDisplayed = false
+let smallScreenDisplayed = false
 
 //Initialising Objects
 let inp1 ;  
@@ -34,7 +39,10 @@ function setup() {
   }
   
   function draw() {
+
+    //Checking to see whether the screen size is big enough
     if (passScreenSize == true){
+
       //Setting up the home screen of the game
       if (screenMode == 0 && screen0Displayed==false){
         MainScreenSetup()
@@ -55,8 +63,12 @@ function setup() {
         screen2Setup()
       }
     }
+
+    //Setting up output if screen size is too small
     else{
-      smallScreenSetup()
+      if (smallScreenDisplayed==false){
+        smallScreenSetup()
+      }
     } 
   }
 
@@ -73,6 +85,8 @@ function setup() {
     text("Screen is too small", windowWidth*0.2, windowHeight*0.3)
     text("to display game", windowWidth*0.26, windowHeight*0.40)
     text("Please resize screen and refresh", 10, windowHeight*0.60)
+
+    smallScreenDisplayed=true
   }
 
   //Function to set up the main text and background of the home screen
@@ -98,18 +112,38 @@ function setup() {
 
   //Function to setup the code for the transition page (Between Innings)
   function screen1Setup(){
+    
+    //Setting key variables needed for this algorithm
     counter=0
-    console.log(opposingTeam)
     screen1SDisplayed = true
+
+    //Hiding preexisiting elements
+    inp1.hide()
+    button1.hide()
+
+    //Setting up the display for this page
+    background(255)
+    textStyle(BOLD)
+    text("Inning : ",300,100)
+    text(inning, 600,100)
+    text(userTeam + " : ",100,240)
+    text(userScore,600,240)
+    text(opposingTeam + " : ",100,380)
+    text(computerScore,600,380)
+  
+    //Deciding whether to display top or bottom of inning
+    fill(0)
+    if (userAttacking==true){
+      triangle(680,100,760,100,720,60)
+    }
+    else{
+      triangle(680,60,760,60,720,100)
+    }
   }
 
   //Function to setup the code for the playing screen of the game
   function screen2Setup(){
     background(220,220,220)
-
-    //Hiding preexisiting elements
-    inp1.hide()
-    button1.hide()
 
     //Code to split the screen into segments
     line(310,0,310,460)
