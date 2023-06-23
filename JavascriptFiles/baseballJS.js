@@ -53,7 +53,7 @@ function setup() {
         screen1Setup()
       }
       else if (screenMode == 1){
-        if (counter >= 10){
+        if (counter >= 1){
           screenMode = 2
         }
       }
@@ -146,8 +146,14 @@ function setup() {
     background(220,220,220)
 
     //Code to split the screen into segments
-    line(310,0,310,460)
-    line(930,0,930,460)
+    line(310,0,310,360)
+    line(930,0,930,360)
+    line(0,360,1240,360)
+
+    //Showing the input box for the user to enter (and text for it)
+    textSize(40)
+    text("Enter your number : ",10,420)
+    inp2.show()
   }
 
   function inputSetup(){
@@ -158,6 +164,13 @@ function setup() {
     inp1.size(300,60)
     inp1.input(ChangeOpposingTeam)
     inp1.hide()
+
+    //Creating the input box for the number input 
+    inp2 = createInput('')
+    inp2.position(460,520)
+    inp2.size(300,60)
+    inp2.input(gameAction)
+    inp2.hide()
   
   }
   
@@ -186,4 +199,14 @@ function setup() {
   //Function to increment the timer for the transistion screen
   function timeIt(){
     counter++
+  }
+
+  //Function to process the input of the user during the game
+  function gameAction(){
+    if (userAttacking==true){
+
+    }
+    else{
+
+    }
   }
