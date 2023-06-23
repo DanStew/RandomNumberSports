@@ -5,7 +5,7 @@ let userTeam = "User Team"
 let passScreenSize = true;
 
 //Initialising game variables
-let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = false 
+let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; 
 
 //Initialising the timer increment in the system
 let counter=0
