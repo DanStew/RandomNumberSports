@@ -5,7 +5,10 @@ let userTeam = "User Team"
 let passScreenSize = true;
 
 //Initialising game variables
-let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; 
+let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true;
+
+//Initialising the bases
+let firstBaseActive = false ; let secondBaseActive = false ; let thirdBaseActive = false ; 
 
 //Initialising the timer increment in the system
 let counter=0
@@ -152,8 +155,45 @@ function setup() {
 
     //Showing the input box for the user to enter (and text for it)
     textSize(40)
+    fill(0)
     text("Enter your number : ",10,420)
     inp2.show()
+
+    //Creating the playing field for the game
+    fill(0,255,0)
+    rect(310,0,670,360)
+
+    //Making the bases
+    if (firstBaseActive==false){
+      fill(255)
+      quad(920,180,880,220,840,180,880,140)
+    }
+    else{
+      fill(255,0,0)
+      quad(920,180,880,220,840,180,880,140)
+    }
+
+    if (secondBaseActive==false){
+      fill(255)
+      quad(600,60,640,20,680,60,640,100)
+    }
+    else{
+      fill(255,0,0)
+      quad(600,60,640,20,680,60,640,100)
+    }
+
+    if (thirdBaseActive==false){
+      fill(255)
+      quad(350,180,390,220,430,180,390,140)
+    }
+    else{
+      fill(255,0,0)
+      quad(920,180,880,220,840,180,880,140)
+    }
+
+    fill(255)
+    quad(600,300,640,340,680,300,640,260)
+
   }
 
   function inputSetup(){
