@@ -330,22 +330,32 @@ function setup() {
     }
     else if (userValue == computerValue && chance == 2){
       console.log("Double")
+      userDoubleProcess()
+      changeBatter(false)
     }
 
     //Processing score where difference is 1
     else if (difference == 1 && chance == 3){
       console.log("Triple")
+      userTripleProcess()
+      changeBatter(false)
     }
     else if (difference == 1 && chance == 2){
       console.log("Double")
+      userDoubleProcess()
+      changeBatter(false)
     }
 
     //Processing score where difference is 2
     else if (difference == 2 && chance == 3){
       console.log("Double")
+      userDoubleProcess()
+      changeBatter(false)
     }
     else if (difference == 2 && chance == 2){
       console.log("Single")
+      userSingleProcess()
+      changeBatter(false)
     }
 
     //Processing score where difference is 3
@@ -375,9 +385,87 @@ function setup() {
       userScore++
       thirdBaseActive=false
     }
-
+  
     //Showing the homerun screen to the user
     screenMode=3
+  }
+
+  function userTripleProcess(){
+
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      userScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      userScore++
+      secondBaseActive = false
+      scoredRuns++
+    }
+    if (firstBaseActive == true){
+      userScore++
+      firstBaseActive = false
+      scoredRuns++
+    }
+
+    thirdBaseActive = true
+
+    //Need code to display the transition screens
+    
+    //Code to refresh the game screen
+    screen2Displayed=false
+
+  }
+
+  function userDoubleProcess(){
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      userScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      userScore++
+      secondBaseActive = false
+      scoredRuns++
+    }
+    if (firstBaseActive == true){
+      firstBaseActive = false
+      thirdBaseActive = true
+    }
+
+    secondBaseActive = true
+
+    //Need code to display the transition screens
+    
+    //Code to refresh the game screen
+    screen2Displayed=false
+  }
+
+  function userSingleProcess(){
+
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      userScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      secondBaseActive = false
+      thirdBaseActive = true
+    }
+    if (firstBaseActive == true){
+      firstBaseActive = false
+      secondBaseActiveBaseActive = true
+    }
+
+    firstBaseActiveBaseActive = true
+
+    //Need code to display the transition screens
+    
+    //Code to refresh the game screen
+    screen2Displayed=false
   }
 
   //Function to change batter in the system
