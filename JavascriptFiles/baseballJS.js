@@ -5,7 +5,7 @@ let userTeam = "User Team"
 let passScreenSize = true;
 
 //Initialising game variables
-let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; let fouls = 0 ; let balls = 0
+let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; let fouls = 0 ; let balls = 0; let outs = 0;
 
 //Initialising the bases
 let firstBaseActive = false ; let secondBaseActive = false ; let thirdBaseActive = false ; 
@@ -15,8 +15,9 @@ let counter=0
 
 //Initialising the screenSetupModes
 let screen0Displayed = false
-let screen1SDisplayed = false
-let screen2SDisplayed = false
+let screen1Displayed = false
+let screen2Displayed = false
+let screen3Displayed = false
 let smallScreenDisplayed = false
 
 //Initialising Objects
@@ -52,22 +53,33 @@ function setup() {
       }
 
       //Setting up the transition screen of the website
-      if (screenMode == 1 && screen1SDisplayed==false){
+      else if (screenMode == 1 && screen1Displayed==false){
         screen1Setup()
       }
       else if (screenMode == 1){
+        //Should be 5 / 10 seconds
         if (counter >= 1){
           screenMode = 2
         }
       }
 
       //Setting up the play screen of the website (Batting)
-      if (screenMode == 2 && screen2SDisplayed==false){
+      else if (screenMode == 2 && screen2Displayed==false){
         screen2Setup()
-        console.log("Setup")
       }
-      else{
+      else if (screenMode==2){
 
+      }
+
+      //Displaying the home run screen of the website
+      else if (screenMode==3 && screen3Displayed==false){
+        screen3Setup()
+      }
+      else if (screenMode==3){
+        if (counter>=3){
+          console.log("Changed screen mode")
+          screenMode=2
+        }
       }
     }
 
@@ -114,7 +126,7 @@ function setup() {
     button1.show()
 
     //Making it so code isn't repeated
-    screen1Displayed = true
+    screen0Displayed = true
   }
 
   //Function to setup the code for the transition page (Between Innings)
@@ -122,14 +134,14 @@ function setup() {
     
     //Setting key variables needed for this algorithm
     counter=0
-    screen1SDisplayed = true
+    screen1Displayed = true
 
     //Hiding preexisiting elements
     inp1.hide()
     button1.hide()
 
     //Setting up the display for this page
-    background(255)
+    background(220,220,220)
     textStyle(BOLD)
     text("Inning : ",300,100)
     text(inning, 600,100)
@@ -209,16 +221,41 @@ function setup() {
     text(computerScore,150,340)
 
     //Third third
-    text("Innings : ", 1000,100)
-    text(inning,1180,100)
-    text("Fouls : ",1000,200)
-    text(fouls,1180,200)
-    text("Balls : ",1000,300)
-    text(balls,1180,300)
+    text("Innings : ", 1000,80)
+    text(inning,1180,80)
+    text("Fouls : ",1000,160)
+    text(fouls,1180,160)
+    text("Balls : ",1000,240)
+    text(balls,1180,240)
+    text("Outs : ",1000,320)
+    text(outs,1180,320)
 
     //Stopping this code from running again
-    screen2SDisplayed=true
+    screen2Displayed=true
 
+    //Allowing other screens to be displayed again
+    screen3Displayed=false
+
+  }
+
+  function screen3Setup(){
+
+    //Setting key variables
+    counter = 0
+    screen3Displayed=true
+
+    //Hiding the input
+    inp2.hide()
+
+    //Setting the designs of the screen
+    //Setting up the display for this page
+    background(220,220,220)
+    textStyle(BOLD)
+    text("Home Run Scored!",400,100)
+    text(userTeam + " : ",100,240)
+    text(userScore,600,240)
+    text(opposingTeam + " : ",100,380)
+    text(computerScore,600,380)
   }
 
   function inputSetup(){
@@ -269,9 +306,92 @@ function setup() {
   //Function to process the input of the user during the game
   function gameAction(){
     if (userAttacking==true){
+      if (this.value() != 0){
 
+        //Taking in the user and computer value
+        userValue = this.value()
+        computerValue = round(random(1,10))
+
+        //Taking in the chance variable (Entering luck based)
+        chance = round(random(1,2))
+
+        //Function called to process the score
+        processScoreAttack(userValue,computerValue,chance)
+      }
     }
     else{
 
+    }
+  }
+
+  //Function to implement the changes to the game after input entered on attack
+  function processScoreAttack(userValue,computerValue,chance){
+
+    //Process the score if userValue == computerValue
+    if (userValue == computerValue && chance == 2){
+      console.log("Home Run")
+
+      //Processes the home run, changing userScore
+      userHomeRunProcess()
+      changeBatter(false)
+    }
+    
+    else if (userValue == computerValue){
+      console.log("Double")
+    }
+
+    //Make changes to the game screen
+    screen2Displayed=false
+  }
+
+  //Function to process the homeruns scored by the user
+  function userHomeRunProcess(){
+    userScore++
+    if (firstBaseActive == true){
+      userScore++
+      firstBaseActive = false
+    }
+    if (secondBaseActive==true){
+      userScore++
+      secondBaseActive=false
+    }
+    if (thirdBaseActive==true){
+      userScore++
+      thirdBaseActive=false
+    }
+
+    //Showing the homerun screen to the user
+    screenMode=3
+  }
+
+  //Function to change batter in the system
+  function changeBatter(out){
+    
+    //Setting the basic variables
+    balls=0
+    fouls=0
+    
+    //Checking to see whether outs need to be incremented or not
+    if (out==true){
+      outs++
+      //Processing the new out by the system
+      newOut()
+    }
+  }
+
+  //Processing a new out in the system
+  function newOut(){
+    if (outs==3){
+      if (userAttacking==true){
+        userAttacking=false
+        screen1Displayed =false
+        screenMode = 1
+      }
+      else{
+        inning++
+        userAttacking=true
+        screen1Displayed=false
+        screenMode=1
+      }
     }
   }
