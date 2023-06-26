@@ -472,7 +472,7 @@ function setup() {
   }
 
   function userNoHitProcess(){
-    action = round(random(1,6))
+    action = round(random(1,7))
 
     if (action <= 2){
       console.log("Ball")
@@ -494,10 +494,23 @@ function setup() {
       console.log("Ground Ball")
       changeBatter(true)
     }
-    else{
+    else if (action==5){
       console.log("Flyball")
       changeBatter(true)
     }
+    else{
+      console.log("Foul")
+      processFouls()
+    }
+  }
+
+  //Code to process fouls in the game
+  function processFouls(){
+    fouls++
+    if (fouls == 3){
+      changeBattertrue()
+    }
+    screen2Displayed=false
   }
 
   //Code to process a walk occuring in the system (Incomplete)
@@ -537,16 +550,20 @@ function setup() {
   //Processing a new out in the system
   function newOut(){
     if (outs==3){
+
+      //Setting common variables
+      outs = 0
+      screen1Displayed=false
+      screenMode=1
+      firstBaseActive = false ; secondBaseActive = false ; thirdBaseActive = false
+
+      //Finding what part of inning
       if (userAttacking==true){
         userAttacking=false
-        screen1Displayed =false
-        screenMode = 1
       }
       else{
         inning++
-        userAttacking=true
-        screen1Displayed=false
-        screenMode=1
+        userAttacking=true 
       }
     }
   }
