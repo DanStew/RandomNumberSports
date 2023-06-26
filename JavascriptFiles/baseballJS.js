@@ -286,22 +286,7 @@ function setup() {
   
   }
 
-//Random Functions
-
-  //Function to change the value of the opposing team to that inputted by the user
-  function ChangeOpposingTeam(){
-    opposingTeam = this.value()
-  }
-  
-  //Function completed when startGame button selected
-  function StartGame(){
-    screenMode=1
-  }
-
-  //Function to increment the timer for the transistion screen
-  function timeIt(){
-    counter++
-  }
+//Game Functions
 
   //Function to process the input of the user during the game
   function gameAction(){
@@ -313,7 +298,7 @@ function setup() {
         computerValue = round(random(1,10))
 
         //Taking in the chance variable (Entering luck based)
-        chance = round(random(1,2))
+        chance = round(random(1,4))
 
         //Function called to process the score
         processScoreAttack(userValue,computerValue,chance)
@@ -327,17 +312,48 @@ function setup() {
   //Function to implement the changes to the game after input entered on attack
   function processScoreAttack(userValue,computerValue,chance){
 
+    //Working out the difference between the two inputs
+    if (userValue>computerValue){
+      difference = userValue - computerValue
+    }
+    else{
+      difference = computerValue - userValue
+    }
+
     //Process the score if userValue == computerValue
-    if (userValue == computerValue && chance == 2){
+    if (userValue == computerValue && chance == 3){
       console.log("Home Run")
 
       //Processes the home run, changing userScore
       userHomeRunProcess()
       changeBatter(false)
     }
-    
-    else if (userValue == computerValue){
+    else if (userValue == computerValue && chance == 2){
       console.log("Double")
+    }
+
+    //Processing score where difference is 1
+    else if (difference == 1 && chance == 3){
+      console.log("Triple")
+    }
+    else if (difference == 1 && chance == 2){
+      console.log("Double")
+    }
+
+    //Processing score where difference is 2
+    else if (difference == 2 && chance == 3){
+      console.log("Double")
+    }
+    else if (difference == 2 && chance == 2){
+      console.log("Single")
+    }
+
+    //Processing score where difference is 3
+    else if (difference == 3 && chance == 3){
+      console.log("Single")
+    }
+    else{
+      console.log("No Hit")
     }
 
     //Make changes to the game screen
@@ -394,4 +410,21 @@ function setup() {
         screenMode=1
       }
     }
+  }
+
+//Random Functions
+
+  //Function to change the value of the opposing team to that inputted by the user
+  function ChangeOpposingTeam(){
+    opposingTeam = this.value()
+  }
+  
+  //Function completed when startGame button selected
+  function StartGame(){
+    screenMode=1
+  }
+
+  //Function to increment the timer for the transistion screen
+  function timeIt(){
+    counter++
   }
