@@ -204,7 +204,7 @@ function setup() {
     }
     else{
       fill(255,0,0)
-      quad(920,180,880,220,840,180,880,140)
+      quad(350,180,390,220,430,180,390,140)
     }
 
     fill(255)
@@ -361,9 +361,12 @@ function setup() {
     //Processing score where difference is 3
     else if (difference == 3 && chance == 3){
       console.log("Single")
+      userSingleProcess()
+      changeBatter(false)
     }
     else{
       console.log("No Hit")
+      userNoHitProcess()
     }
 
     //Make changes to the game screen
@@ -468,12 +471,60 @@ function setup() {
     screen2Displayed=false
   }
 
+  function userNoHitProcess(){
+    action = round(random(1,6))
+
+    if (action <= 2){
+      console.log("Ball")
+      balls++
+      if (balls == 4){
+        walkProcess()
+      }
+    }
+    else if (firstBaseActive==true && action==3){
+      console.log("Double Play")
+      outs++
+      changeBatter(true)
+      secondBaseActive = false
+
+      //Code to refresh the display of the screen
+      screen2Displayed = false
+    }
+    else if (action==4){
+      console.log("Ground Ball")
+      changeBatter(true)
+    }
+    else{
+      console.log("Flyball")
+      changeBatter(true)
+    }
+  }
+
+  //Code to process a walk occuring in the system (Incomplete)
+  function walkProcess(){
+    if (firstBaseActive == true){
+      if (secondBaseActive == true){
+        if (thirdBaseActive == true){
+          userScore++
+          //Need code here to display scored run screen
+          screen2Displayed=false
+        }
+        thirdBaseActive=true
+      }
+      secondBaseActive = true
+    }
+    firstBaseActive = true
+  }
+
   //Function to change batter in the system
   function changeBatter(out){
     
     //Setting the basic variables
     balls=0
     fouls=0
+
+    //Code to refresh the screen 2
+    screen2Displayed = false
     
     //Checking to see whether outs need to be incremented or not
     if (out==true){
