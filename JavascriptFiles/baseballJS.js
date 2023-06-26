@@ -5,7 +5,7 @@ let userTeam = "User Team"
 let passScreenSize = true;
 
 //Initialising game variables
-let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true;
+let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; let fouls = 0 ; let balls = 0
 
 //Initialising the bases
 let firstBaseActive = false ; let secondBaseActive = false ; let thirdBaseActive = false ; 
@@ -64,6 +64,10 @@ function setup() {
       //Setting up the play screen of the website (Batting)
       if (screenMode == 2 && screen2SDisplayed==false){
         screen2Setup()
+        console.log("Setup")
+      }
+      else{
+
       }
     }
 
@@ -193,6 +197,27 @@ function setup() {
 
     fill(255)
     quad(600,300,640,340,680,300,640,260)
+
+    //Layout the text on the outside thirds
+
+    //First third
+    fill(0)
+    text("Score", 100,60)
+    text(userTeam + " : ",10,140)
+    text(userScore,150,200)
+    text(opposingTeam + " : ",10,280)
+    text(computerScore,150,340)
+
+    //Third third
+    text("Innings : ", 1000,100)
+    text(inning,1180,100)
+    text("Fouls : ",1000,200)
+    text(fouls,1180,200)
+    text("Balls : ",1000,300)
+    text(balls,1180,300)
+
+    //Stopping this code from running again
+    screen2SDisplayed=true
 
   }
 
