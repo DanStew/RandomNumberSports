@@ -463,7 +463,7 @@ function setup() {
       secondBaseActiveBaseActive = true
     }
 
-    firstBaseActiveBaseActive = true
+    firstBaseActive = true
 
     //Need code to display the transition screens
     
@@ -508,7 +508,7 @@ function setup() {
   function processFouls(){
     fouls++
     if (fouls == 3){
-      changeBattertrue()
+      changeBatter(true)
     }
     screen2Displayed=false
   }
