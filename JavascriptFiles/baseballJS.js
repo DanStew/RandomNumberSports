@@ -1,35 +1,58 @@
 //Initialising key variables
-let screenMode = 0;
+let screenMode;
 let opposingTeam = "The Computer";
 let userTeam = "User Team"
 let passScreenSize = true;
 
 //Initialising game variables
-let inning = 1; let userScore = 0 ; let computerScore = 0 ; let userAttacking = true; let fouls = 0 ; let balls = 0; let outs = 0;
+let inning; let userScore; let computerScore; let userAttacking; let fouls; let balls; let outs;
 
 //Initialising the bases
-let firstBaseActive = false ; let secondBaseActive = false ; let thirdBaseActive = false ; 
+let firstBaseActive ; let secondBaseActive ; let thirdBaseActive ; 
 
 //Initialising the timer increment in the system
-let counter=0
+let counter
 
 //Initialising the screenSetupModes
-let screen0Displayed = false
-let screen1Displayed = false
-let screen2Displayed = false
-let screen3Displayed = false
-let screen4Displayed = false
-let screen5Displayed = false
-let screen6Displayed = false
-let smallScreenDisplayed = false
+let screen0Displayed ; let screen1Displayed ; let screen2Displayed ; let screen3Displayed ; let screen4Displayed ; let screen5Displayed ; let screen6Displayed ; let screen7Displayed ; let smallScreenDisplayed
 
 //Initialising Objects
 let inp1 ;  
 let button1;
 
+//Function to intialise global variables in the system
+function initialiseVariables(){
+  //Initialising key variables
+  screenMode = 0;
+
+  //Initialising game variables
+  inning = 1; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
+
+  //Initialising the bases
+  firstBaseActive = false ; secondBaseActive = false ; thirdBaseActive = false ; 
+
+  //Initialising the timer increment in the system
+  counter=0
+
+  //Initialising the screenSetupModes
+  screen0Displayed = false
+  screen1Displayed = false
+  screen2Displayed = false
+  screen3Displayed = false
+  screen4Displayed = false
+  screen5Displayed = false
+  screen6Displayed = false
+  screen7Displayed = false
+  smallScreenDisplayed = false
+}
+
 
 //Key Functions
 function setup() {
+
+    //Initialising global variables
+    initialiseVariables()
+
     if(windowWidth < 1240 || windowHeight < 460){
       createCanvas(windowWidth*0.97,windowHeight*0.8)
       background(255)
@@ -71,9 +94,6 @@ function setup() {
       //Setting up the play screen of the website (Batting)
       else if (screenMode == 2 && screen2Displayed==false){
         screen2Setup()
-      }
-      else if (screenMode==2){
-
       }
 
       //Displaying the home run screen of the website
@@ -120,6 +140,10 @@ function setup() {
           }
         }
       }
+
+      else if (screenMode == 7 && screen7Displayed == false){
+        screen7Setup()
+      }
     }
 
     //Setting up output if screen size is too small
@@ -158,11 +182,17 @@ function setup() {
     text("BASEBALL", 394, 108)
     textSize(56)
     textStyle(NORMAL)
-    text("Opposing Team : ", 124, 240)
+    text("Opposing Team : ", 124, 300)
+    text("User Team : ",124,200)
 
     //Showing the inputs and buttons needed for the page
     inp1.show()
+    inp1.value("")
     button1.show()
+    inp2.hide()
+    button2.hide()
+    inp3.show()
+    inp3.value("")
 
     //Making it so code isn't repeated
     screen0Displayed = true
@@ -178,6 +208,7 @@ function setup() {
 
     //Hiding preexisiting elements
     inp1.hide()
+    inp3.hide()
     button1.hide()
 
     //Setting up the display for this page
@@ -264,7 +295,7 @@ function setup() {
     text(computerScore,150,340)
 
     //Third third
-    text("Innings : ", 1000,80)
+    text("Inning : ", 1000,80)
     text(inning,1180,80)
     text("Fouls : ",1000,160)
     text(fouls,1180,160)
@@ -272,6 +303,16 @@ function setup() {
     text(balls,1180,240)
     text("Outs : ",1000,320)
     text(outs,1180,320)
+
+    //Finding out whether user batting or pitching
+    fill(255)
+    textSize(50)
+    if (userAttacking == true){
+      text("Batting",780,320)
+    }
+    else{
+      text("Pitching", 780,320)
+    }
 
     //Stopping this code from running again
     screen2Displayed=true
@@ -317,11 +358,30 @@ function setup() {
     background(220,220,220)
     textStyle(BOLD)
     textSize(50)
-    text(positiveGameAction + " - " + scoredRuns + " Run(s) Scored",400,120)
+    fill(0)
     text(userTeam + " : ",100,240)
     text(userScore,600,240)
     text(opposingTeam + " : ",100,380)
     text(computerScore,600,380)
+
+    //Deciding what output text needs to be displayed
+    if (userAttacking == true){
+      if (scoredRuns == 1){
+        text(positiveGameAction + " - " + scoredRuns + " Run Scored",400,120)
+      }
+      else{
+        text(positiveGameAction + " - " + scoredRuns + " Runs Scored",400,120)
+      }
+    }
+    else{
+      if (scoredRuns ==1){
+        text(positiveGameAction + " - " + scoredRuns + " Run Conceded",380,120)
+      }
+      else{
+        text(positiveGameAction + " - " + scoredRuns + " Runs Conceded",380,120)
+      }
+      
+    }
   }
 
   function screen5Setup(){
@@ -336,7 +396,14 @@ function setup() {
     positiveGameAction = getItem("positiveGameAction")
 
     //Setting the design of the screen 
-    background(0,255,0)
+
+    //Deciding the background of the screen
+    if (userAttacking == true){
+      background(0,255,0)
+    }
+    else{
+      background(255,0,0)
+    }
     textStyle(BOLD)
     fill(255)
     textSize(200)
@@ -356,7 +423,15 @@ function setup() {
     negativeGameAction = getItem("negativeGameAction")
 
     //Setting the design of the screen 
-    background(255,0,0)
+
+    //Deciding the background of the screen
+    if (userAttacking == true){
+      background(255,0,0)
+    }
+    else{
+      background(0,255,0)
+    }
+
     textStyle(BOLD)
     fill(255)
     textSize(200)
@@ -369,11 +444,38 @@ function setup() {
     
   }
 
+  function screen7Setup(){
+
+    //Initialising key variables
+    screen7Displayed = true
+
+    //Controlling the design of the screen
+    background(220,220,220)
+    textStyle(BOLD)
+    textSize(70)
+    fill(0)
+    textSize(50)
+    text(userTeam + " : ",100,200)
+    text(userScore,600,200)
+    text(opposingTeam + " : ",100,300)
+    text(computerScore,600,300)
+
+    if(userScore > computerScore){
+      text("Final - " + userTeam + " Won ", 400,100 )
+    }
+    else{
+      text("Final - " + opposingTeam + " Won ", 400,100 )
+    }
+
+    //Displaying the play again button
+    button2.show()
+  }
+
   function inputSetup(){
 
     //Creating the input box for the Opposing Team (Main Screen)
     inp1 = createInput('')
-    inp1.position(760, 336)
+    inp1.position(760, 396)
     inp1.size(300,60)
     inp1.input(ChangeOpposingTeam)
     inp1.hide()
@@ -384,6 +486,13 @@ function setup() {
     inp2.size(300,60)
     inp2.input(gameAction)
     inp2.hide()
+
+    //Creating the input box for the User Team (Main Screen)
+    inp3 = createInput('')
+    inp3.position(760, 296)
+    inp3.size(300,60)
+    inp3.input(ChangeUserTeam)
+    inp3.hide()
   
   }
   
@@ -392,8 +501,14 @@ function setup() {
     //Creating the button to start the game (Main Screen)
     button1 = createButton("Start Game")
     button1.size(180,60)
-    button1.position(520,440)
+    button1.position(520,500)
     button1.mousePressed(StartGame)
+
+    //Creating the button to play again (End Screen)
+    button2 = createButton("Play Again")
+    button2.size(180,60)
+    button2.position(520,500)
+    button2.mousePressed(playAgain)
   
   }
 
@@ -674,6 +789,7 @@ function setup() {
     else if (firstBaseActive==true && action==3){
       outs++
       secondBaseActive = false
+      firstBaseActive = false
 
       //Code to refresh the display of the screen
       storeItem("negativeGameAction", "Double Play")
@@ -969,11 +1085,27 @@ function setup() {
 
       //Finding what part of inning
       if (userAttacking==true){
-        userAttacking=false
+        //Seeing if the bottom of the final inning needs to be played
+        if (inning == 3 && computerScore > userScore){
+          screen1Displayed=true
+          screenMode = 7
+          screen7Displayed = false
+        }
+        else{
+          userAttacking=false
+        }
       }
       else{
         inning++
         userAttacking=true 
+        if (inning >= 4){
+          //Ensuring scores in the game aren't equal
+          if (userScore != computerScore){
+            screen1Displayed=true
+            screenMode = 7
+            screen7Displayed = false
+          }
+        }
       }
     }
   }
@@ -983,6 +1115,11 @@ function setup() {
   //Function to change the value of the opposing team to that inputted by the user
   function ChangeOpposingTeam(){
     opposingTeam = this.value()
+  }
+
+  //Function to change the value of the user team to that inputted by the user
+  function ChangeUserTeam(){
+    userTeam = this.value()
   }
   
   //Function completed when startGame button selected
@@ -1007,4 +1144,11 @@ function setup() {
     }
 
     return difference
+  }
+
+  //Function for the play again button
+  function playAgain(){
+    screenMode = 0
+    screen0Displayed = false
+    initialiseVariables()
   }
