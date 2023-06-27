@@ -415,20 +415,27 @@ function setup() {
       }
     }
     else{
+      console.log("Defending")
+      if (this.value() != 0){
 
+        //Taking in the user and computer value
+        userValue = this.value()
+        computerValue = round(random(1,10))
+
+        //Taking in the chance variable (Entering luck based)
+        chance = round(random(1,4))
+
+        //Function called to process the score
+        processScoreDefence(computerValue,userValue,chance)
+      }
     }
   }
 
   //Function to implement the changes to the game after input entered on attack
   function processScoreAttack(userValue,computerValue,chance){
 
-    //Working out the difference between the two inputs
-    if (userValue>computerValue){
-      difference = userValue - computerValue
-    }
-    else{
-      difference = computerValue - userValue
-    }
+    //Finding the difference between the two values
+    difference = findDifference(userValue,computerValue)
 
     //Process the score if userValue == computerValue
     if (userValue == computerValue && chance == 3){
@@ -482,6 +489,66 @@ function setup() {
     //Make changes to the game screen
     screen2Displayed=false
   }
+
+  function processScoreDefence(computerValue,userValue,chance){
+    
+    //Finding the difference between the two values
+    difference = findDifference(userValue,computerValue)
+
+    //Process the score if userValue == computerValue
+    if (userValue == computerValue && chance == 3){
+      console.log("Home Run")
+
+      //Processes the home run, changing computerScore
+      computerHomeRunProcess()
+      changeBatter(false)
+    }
+    else if (userValue == computerValue && chance == 2){
+      console.log("Double")
+      computerDoubleProcess()
+      changeBatter(false)
+    }
+
+    //Processing score where difference is 1
+    else if (difference == 1 && chance == 3){
+      console.log("Triple")
+      computerTripleProcess()
+      changeBatter(false)
+    }
+    else if (difference == 1 && chance == 2){
+      console.log("Double")
+      computerDoubleProcess()
+      changeBatter(false)
+    }
+
+    //Processing score where difference is 2
+    else if (difference == 2 && chance == 3){
+      console.log("Double")
+      computerDoubleProcess()
+      changeBatter(false)
+    }
+    else if (difference == 2 && chance == 2){
+      console.log("Single")
+      computerSingleProcess()
+      changeBatter(false)
+    }
+
+    //Processing score where difference is 3
+    else if (difference == 3 && chance == 3){
+      console.log("Single")
+      computerSingleProcess()
+      changeBatter(false)
+    }
+    else{
+      console.log("No Hit")
+      computerNoHitProcess()
+    }
+
+    //Make changes to the game screen
+    screen2Displayed=false
+  }
+
+  //Functions to change the users scores
 
   //Function to process the homeruns scored by the user
   function userHomeRunProcess(){
@@ -677,6 +744,204 @@ function setup() {
     }
   }
 
+  //Functions to change the computers values
+
+  //Function to process the homeruns scored by the user
+  function computerHomeRunProcess(){
+    computerScore++
+    if (firstBaseActive == true){
+      computerScore++
+      firstBaseActive = false
+    }
+    if (secondBaseActive==true){
+      computerScore++
+      secondBaseActive=false
+    }
+    if (thirdBaseActive==true){
+      computerScore++
+      thirdBaseActive=false
+    }
+  
+    //Showing the homerun screen to the user
+    screenMode=3
+  }
+
+  function computerTripleProcess(){
+
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      computerScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      computerScore++
+      secondBaseActive = false
+      scoredRuns++
+    }
+    if (firstBaseActive == true){
+      computerScore++
+      firstBaseActive = false
+      scoredRuns++
+    }
+
+    thirdBaseActive = true
+
+    //Need code to display the transition screens
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Triple")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Triple")
+    }
+    
+    //Code to refresh the game screen
+    screen2Displayed=false
+
+  }
+
+  function computerDoubleProcess(){
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      computerScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      computerScore++
+      secondBaseActive = false
+      scoredRuns++
+    }
+    if (firstBaseActive == true){
+      firstBaseActive = false
+      thirdBaseActive = true
+    }
+
+    secondBaseActive = true
+
+    //Need code to display the transition screens
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Double")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Double")
+    }
+
+    //Code to refresh the game screen
+    screen2Displayed=false
+  }
+
+  function computerSingleProcess(){
+
+    let scoredRuns = 0
+    if (thirdBaseActive==true){
+      computerScore++
+      thirdBaseActive = false
+      scoredRuns++
+    }
+    if (secondBaseActive==true){
+      secondBaseActive = false
+      thirdBaseActive = true
+    }
+    if (firstBaseActive == true){
+      firstBaseActive = false
+      secondBaseActive = true
+    }
+
+    firstBaseActive = true
+
+    //Need code to display the transition screens
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Single")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Single")
+    }
+
+    //Code to refresh the game screen
+    screen2Displayed=false
+  }
+
+  function computerNoHitProcess(){
+    action = round(random(1,7))
+
+    if (action <= 2){
+      console.log("Ball")
+      balls++
+      
+      if (balls == 4){
+        walkProcess()
+      }
+      else{
+        //Code to implement the transition screen
+        storeItem("positiveGameAction", "Ball")
+        screenMode = 5
+        screen5Displayed = false
+      }
+    }
+    else if (firstBaseActive==true && action==3){
+      console.log("Double Play")
+      outs++
+      secondBaseActive = false
+
+      //Code to refresh the display of the screen
+      storeItem("negativeGameAction", "Double Play")
+      screenMode = 6
+      screen6Displayed = false
+      screen2Displayed = false
+
+      changeBatter(true)
+    }
+    else if (action==4){
+      console.log("Ground Ball")
+
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Ground Ball")
+      screenMode = 6
+      screen6Displayed = false
+
+      changeBatter(true)
+    }
+    else if (action==5){
+      console.log("Flyball")
+
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Flyball")
+      screenMode = 6
+      screen6Displayed = false
+
+      changeBatter(true)
+    }
+    else{
+      console.log("Foul")
+    
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Foul")
+      screenMode = 6
+      screen6Displayed = false
+
+      //Code to process the fouls
+      processFouls()
+    }
+  }
+
+  //Other game functions (Joint)
+
   //Code to process fouls in the game
   function processFouls(){
     fouls++
@@ -691,7 +956,13 @@ function setup() {
     if (firstBaseActive == true){
       if (secondBaseActive == true){
         if (thirdBaseActive == true){
-          userScore++
+          if(userAttacking == true){
+            userScore++
+          }
+          else{
+            computerScore++
+          }
+          
           //Need code here to display scored run screen
           screen2Displayed=false
         }
@@ -765,4 +1036,18 @@ function setup() {
   //Function to increment the timer for the transistion screen
   function timeIt(){
     counter++
+  }
+
+  //Working out the difference between the two values
+  function findDifference(userValue,computerValue){
+
+    //Working out the difference between the two inputs
+    if (userValue>computerValue){
+      difference = userValue - computerValue
+    }
+    else{
+      difference = computerValue - userValue
+    }
+
+    return difference
   }
