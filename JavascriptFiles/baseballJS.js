@@ -57,6 +57,7 @@ function setup() {
 
       //Setting up the transition screen of the website
       else if (screenMode == 1 && screen1Displayed==false){
+        console.log("Code Run")
         screen1Setup()
       }
       else if (screenMode == 1){
@@ -110,7 +111,12 @@ function setup() {
       }
       else if (screenMode == 6){
         if (counter>=2){
-          screenMode=2
+          if (outs >=3){
+            newOut()
+          }
+          else{
+            screenMode=2
+          }
         }
       }
     }
@@ -167,6 +173,7 @@ function setup() {
     //Setting key variables needed for this algorithm
     counter=0
     screen1Displayed = true
+    outs=0
 
     //Hiding preexisiting elements
     inp1.hide()
@@ -174,7 +181,9 @@ function setup() {
 
     //Setting up the display for this page
     background(220,220,220)
+    fill(0)
     textStyle(BOLD)
+    textSize(50)
     text("Inning : ",300,100)
     text(inning, 600,100)
     text(userTeam + " : ",100,240)
@@ -208,7 +217,7 @@ function setup() {
     inp2.show()
 
     //Creating the playing field for the game
-    fill(0,255,0)
+    fill(120,240,130)
     rect(310,0,670,360)
 
     //Making the bases
@@ -337,19 +346,26 @@ function setup() {
     //Setting key variables
     counter = 0
     screen6Displayed = true
-
+  
     //Hiding the input
     inp2.hide()
 
     //Collecting the action from local storage
     negativeGameAction = getItem("negativeGameAction")
+    console.log(negativeGameAction)
 
     //Setting the design of the screen 
     background(255,0,0)
     textStyle(BOLD)
     fill(255)
     textSize(200)
-    text(negativeGameAction,300,280)
+    if (negativeGameAction == "Double Play" || negativeGameAction == "Ground Ball"){
+      text(negativeGameAction,40,280)
+    }
+    else{
+      text(negativeGameAction,300,280)
+    }
+    
   }
 
   function inputSetup(){
@@ -618,7 +634,6 @@ function setup() {
     else if (firstBaseActive==true && action==3){
       console.log("Double Play")
       outs++
-      changeBatter(true)
       secondBaseActive = false
 
       //Code to refresh the display of the screen
@@ -626,33 +641,39 @@ function setup() {
       screenMode = 6
       screen6Displayed = false
       screen2Displayed = false
+
+      changeBatter(true)
     }
     else if (action==4){
       console.log("Ground Ball")
-      changeBatter(true)
 
       //Code to display the transition screen
       storeItem("negativeGameAction", "Ground Ball")
       screenMode = 6
       screen6Displayed = false
+
+      changeBatter(true)
     }
     else if (action==5){
       console.log("Flyball")
-      changeBatter(true)
 
       //Code to display the transition screen
       storeItem("negativeGameAction", "Flyball")
       screenMode = 6
       screen6Displayed = false
+
+      changeBatter(true)
     }
     else{
       console.log("Foul")
-      processFouls()
-
+    
       //Code to display the transition screen
       storeItem("negativeGameAction", "Foul")
       screenMode = 6
       screen6Displayed = false
+
+      //Code to process the fouls
+      processFouls()
     }
   }
 
@@ -709,11 +730,11 @@ function setup() {
 
   //Processing a new out in the system
   function newOut(){
-    if (outs>=3){
+    if (outs>=3 && screen6Displayed == true){
 
       //Setting common variables
       console.log("Next Inning")
-      outs = 0
+      outs = 0 
       screen1Displayed=false
       screenMode=1
       firstBaseActive = false ; secondBaseActive = false ; thirdBaseActive = false
