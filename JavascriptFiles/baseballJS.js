@@ -1,7 +1,7 @@
 //Initialising key variables
 let screenMode;
-let opposingTeam = "The Computer";
-let userTeam = "User Team"
+let opposingTeam
+let userTeam
 let passScreenSize = true;
 
 //Initialising game variables
@@ -24,6 +24,10 @@ let button1;
 function initialiseVariables(){
   //Initialising key variables
   screenMode = 0;
+
+  //Initialising team names
+  opposingTeam = "The Computer"
+  userTeam = "User Team"
 
   //Initialising game variables
   inning = 1; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
