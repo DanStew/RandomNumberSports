@@ -27,6 +27,8 @@ let smallScreenDisplayed = false
 let inp1 ;  
 let button1;
 
+
+//Key Functions
 function setup() {
     if(windowWidth < 1240 || windowHeight < 460){
       createCanvas(windowWidth*0.97,windowHeight*0.8)
@@ -57,7 +59,6 @@ function setup() {
 
       //Setting up the transition screen of the website
       else if (screenMode == 1 && screen1Displayed==false){
-        console.log("Code Run")
         screen1Setup()
       }
       else if (screenMode == 1){
@@ -215,6 +216,7 @@ function setup() {
     fill(0)
     text("Enter your number : ",10,420)
     inp2.show()
+    inp2.value("")
 
     //Creating the playing field for the game
     fill(120,240,130)
@@ -315,7 +317,7 @@ function setup() {
     background(220,220,220)
     textStyle(BOLD)
     textSize(50)
-    text(positiveGameAction + " - " + scoredRuns + " Runs Scored",400,120)
+    text(positiveGameAction + " - " + scoredRuns + " Run(s) Scored",400,120)
     text(userTeam + " : ",100,240)
     text(userScore,600,240)
     text(opposingTeam + " : ",100,380)
@@ -352,7 +354,6 @@ function setup() {
 
     //Collecting the action from local storage
     negativeGameAction = getItem("negativeGameAction")
-    console.log(negativeGameAction)
 
     //Setting the design of the screen 
     background(255,0,0)
@@ -400,31 +401,22 @@ function setup() {
 
   //Function to process the input of the user during the game
   function gameAction(){
+
+    //Taking in the user and computer value
+    userValue = this.value()
+    computerValue = round(random(1,10))
+
+    //Taking in the chance variable (Entering luck based)
+    chance = round(random(1,4))
+
     if (userAttacking==true){
       if (this.value() != 0){
-
-        //Taking in the user and computer value
-        userValue = this.value()
-        computerValue = round(random(1,10))
-
-        //Taking in the chance variable (Entering luck based)
-        chance = round(random(1,4))
-
         //Function called to process the score
         processScoreAttack(userValue,computerValue,chance)
       }
     }
     else{
-      console.log("Defending")
       if (this.value() != 0){
-
-        //Taking in the user and computer value
-        userValue = this.value()
-        computerValue = round(random(1,10))
-
-        //Taking in the chance variable (Entering luck based)
-        chance = round(random(1,4))
-
         //Function called to process the score
         processScoreDefence(computerValue,userValue,chance)
       }
@@ -439,50 +431,41 @@ function setup() {
 
     //Process the score if userValue == computerValue
     if (userValue == computerValue && chance == 3){
-      console.log("Home Run")
-
       //Processes the home run, changing userScore
       userHomeRunProcess()
       changeBatter(false)
     }
     else if (userValue == computerValue && chance == 2){
-      console.log("Double")
       userDoubleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 1
     else if (difference == 1 && chance == 3){
-      console.log("Triple")
       userTripleProcess()
       changeBatter(false)
     }
     else if (difference == 1 && chance == 2){
-      console.log("Double")
       userDoubleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 2
     else if (difference == 2 && chance == 3){
-      console.log("Double")
       userDoubleProcess()
       changeBatter(false)
     }
     else if (difference == 2 && chance == 2){
-      console.log("Single")
       userSingleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 3
     else if (difference == 3 && chance == 3){
-      console.log("Single")
       userSingleProcess()
       changeBatter(false)
     }
     else{
-      console.log("No Hit")
       userNoHitProcess()
     }
 
@@ -497,50 +480,41 @@ function setup() {
 
     //Process the score if userValue == computerValue
     if (userValue == computerValue && chance == 3){
-      console.log("Home Run")
-
       //Processes the home run, changing computerScore
       computerHomeRunProcess()
       changeBatter(false)
     }
     else if (userValue == computerValue && chance == 2){
-      console.log("Double")
       computerDoubleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 1
     else if (difference == 1 && chance == 3){
-      console.log("Triple")
       computerTripleProcess()
       changeBatter(false)
     }
     else if (difference == 1 && chance == 2){
-      console.log("Double")
       computerDoubleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 2
     else if (difference == 2 && chance == 3){
-      console.log("Double")
       computerDoubleProcess()
       changeBatter(false)
     }
     else if (difference == 2 && chance == 2){
-      console.log("Single")
       computerSingleProcess()
       changeBatter(false)
     }
 
     //Processing score where difference is 3
     else if (difference == 3 && chance == 3){
-      console.log("Single")
       computerSingleProcess()
       changeBatter(false)
     }
     else{
-      console.log("No Hit")
       computerNoHitProcess()
     }
 
@@ -685,7 +659,6 @@ function setup() {
     action = round(random(1,7))
 
     if (action <= 2){
-      console.log("Ball")
       balls++
       
       if (balls == 4){
@@ -699,7 +672,6 @@ function setup() {
       }
     }
     else if (firstBaseActive==true && action==3){
-      console.log("Double Play")
       outs++
       secondBaseActive = false
 
@@ -712,8 +684,6 @@ function setup() {
       changeBatter(true)
     }
     else if (action==4){
-      console.log("Ground Ball")
-
       //Code to display the transition screen
       storeItem("negativeGameAction", "Ground Ball")
       screenMode = 6
@@ -722,8 +692,6 @@ function setup() {
       changeBatter(true)
     }
     else if (action==5){
-      console.log("Flyball")
-
       //Code to display the transition screen
       storeItem("negativeGameAction", "Flyball")
       screenMode = 6
@@ -731,9 +699,7 @@ function setup() {
 
       changeBatter(true)
     }
-    else{
-      console.log("Foul")
-    
+    else{   
       //Code to display the transition screen
       storeItem("negativeGameAction", "Foul")
       screenMode = 6
@@ -881,7 +847,6 @@ function setup() {
     action = round(random(1,7))
 
     if (action <= 2){
-      console.log("Ball")
       balls++
       
       if (balls == 4){
@@ -895,7 +860,6 @@ function setup() {
       }
     }
     else if (firstBaseActive==true && action==3){
-      console.log("Double Play")
       outs++
       secondBaseActive = false
 
@@ -908,8 +872,6 @@ function setup() {
       changeBatter(true)
     }
     else if (action==4){
-      console.log("Ground Ball")
-
       //Code to display the transition screen
       storeItem("negativeGameAction", "Ground Ball")
       screenMode = 6
@@ -918,8 +880,6 @@ function setup() {
       changeBatter(true)
     }
     else if (action==5){
-      console.log("Flyball")
-
       //Code to display the transition screen
       storeItem("negativeGameAction", "Flyball")
       screenMode = 6
@@ -928,8 +888,6 @@ function setup() {
       changeBatter(true)
     }
     else{
-      console.log("Foul")
-    
       //Code to display the transition screen
       storeItem("negativeGameAction", "Foul")
       screenMode = 6
@@ -1004,7 +962,6 @@ function setup() {
     if (outs>=3 && screen6Displayed == true){
 
       //Setting common variables
-      console.log("Next Inning")
       outs = 0 
       screen1Displayed=false
       screenMode=1
