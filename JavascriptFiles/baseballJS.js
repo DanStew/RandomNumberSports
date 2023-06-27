@@ -339,6 +339,7 @@ function setup() {
     //Setting up the display for this page
     background(220,220,220)
     textStyle(BOLD)
+    fill(0)
     text("Home Run Scored!",400,100)
     text(userTeam + " : ",100,240)
     text(userScore,600,240)
@@ -403,7 +404,7 @@ function setup() {
 
     //Deciding the background of the screen
     if (userAttacking == true){
-      background(0,255,0)
+      background(120,240,130)
     }
     else{
       background(255,0,0)
@@ -433,7 +434,7 @@ function setup() {
       background(255,0,0)
     }
     else{
-      background(0,255,0)
+      background(120,240,130)
     }
 
     textStyle(BOLD)

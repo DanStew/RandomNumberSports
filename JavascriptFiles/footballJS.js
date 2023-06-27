@@ -155,6 +155,19 @@ function setup() {
     text(opposingTeam + " : ",10,280)
     text(computerScore,150,340)
 
+    //Setting whether user is taking or saving
+    
+    textSize(50)
+    fill(255)
+    rect(540,20,440,80)
+    fill(0)
+    if (userAttacking == true){
+      text("Taking Penalty",580,80)
+    }
+    else{
+      text("Saving Penalty",580,80)
+    }
+
     //Code to hide and show buttons and inputs
     inp1.hide()
     inp2.hide()
@@ -168,6 +181,7 @@ function setup() {
 
   //Function to set up the screen if the screen size is too small for the system
   function smallScreenSetup(){
+    fill(0)
     textSize(50)
     textStyle(BOLD)
     text("Screen Size Issue", windowWidth*0.15, windowHeight*0.1)
@@ -218,6 +232,28 @@ function setup() {
 
   //Function to process the inputs of the user in the game
   function gameAction(){
+    if (this.value() != 0){
+
+      //If the user is taking the penalty
+      if (userAttacking == true){
+
+        //Getting the values
+        userValue = this.value()
+        computerValue = round(random(1,9))
+        chance = round(random(1,3))
+
+        takingPenaltyProcess(userValue,computerValue,chance)
+      }
+
+      //If the user is saving the penalty
+      else{
+
+      }
+    }
+  }
+
+  //Code to process the actions when the user takes a penalty
+  function takingPenaltyProcess(userValue,computerValue,chance){
 
   }
 
