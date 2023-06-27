@@ -18,6 +18,9 @@ let screen0Displayed = false
 let screen1Displayed = false
 let screen2Displayed = false
 let screen3Displayed = false
+let screen4Displayed = false
+let screen5Displayed = false
+let screen6Displayed = false
 let smallScreenDisplayed = false
 
 //Initialising Objects
@@ -77,7 +80,36 @@ function setup() {
       }
       else if (screenMode==3){
         if (counter>=3){
-          console.log("Changed screen mode")
+          screenMode=2
+        }
+      }
+
+      //Displaying the runs scored screen (other than home runs)
+      else if (screenMode ==4 && screen4Displayed==false){
+        screen4Setup()
+      }
+      else if (screenMode == 4){
+        if (counter>=3){
+          screenMode=2
+        }
+      }
+
+      //Displaying the Positive Game Action Screen
+      else if (screenMode == 5 && screen5Displayed == false){
+        screen5Setup()
+      }
+      else if (screenMode == 5){
+        if (counter>=2){
+          screenMode=2
+        }
+      }
+
+      //Displaying the Negative Game Action Screen
+      else if (screenMode == 6 && screen6Displayed == false){
+        screen6Setup()
+      }
+      else if (screenMode == 6){
+        if (counter>=2){
           screenMode=2
         }
       }
@@ -258,6 +290,68 @@ function setup() {
     text(computerScore,600,380)
   }
 
+  function screen4Setup(){
+    //Setting key variables
+    counter = 0
+    screen4Displayed = true
+
+    //Hiding the input
+    inp2.hide()
+
+    //Collecting the action from local storage
+    scoredRuns = getItem("scoredRuns")
+    positiveGameAction = getItem("positiveGameAction")
+
+    //Setting the design of the screen
+    background(220,220,220)
+    textStyle(BOLD)
+    textSize(50)
+    text(positiveGameAction + " - " + scoredRuns + " Runs Scored",400,120)
+    text(userTeam + " : ",100,240)
+    text(userScore,600,240)
+    text(opposingTeam + " : ",100,380)
+    text(computerScore,600,380)
+  }
+
+  function screen5Setup(){
+    //Setting key variables
+    counter = 0
+    screen5Displayed = true
+
+    //Hiding the input
+    inp2.hide()
+
+    //Collecting the action from local storage
+    positiveGameAction = getItem("positiveGameAction")
+
+    //Setting the design of the screen 
+    background(0,255,0)
+    textStyle(BOLD)
+    fill(255)
+    textSize(200)
+    text(positiveGameAction,300,280)
+    
+  }
+
+  function screen6Setup(){
+    //Setting key variables
+    counter = 0
+    screen6Displayed = true
+
+    //Hiding the input
+    inp2.hide()
+
+    //Collecting the action from local storage
+    negativeGameAction = getItem("negativeGameAction")
+
+    //Setting the design of the screen 
+    background(255,0,0)
+    textStyle(BOLD)
+    fill(255)
+    textSize(200)
+    text(negativeGameAction,300,280)
+  }
+
   function inputSetup(){
 
     //Creating the input box for the Opposing Team (Main Screen)
@@ -415,6 +509,17 @@ function setup() {
     thirdBaseActive = true
 
     //Need code to display the transition screens
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Triple")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Triple")
+    }
     
     //Code to refresh the game screen
     screen2Displayed=false
@@ -441,7 +546,18 @@ function setup() {
     secondBaseActive = true
 
     //Need code to display the transition screens
-    
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Double")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Double")
+    }
+
     //Code to refresh the game screen
     screen2Displayed=false
   }
@@ -460,13 +576,24 @@ function setup() {
     }
     if (firstBaseActive == true){
       firstBaseActive = false
-      secondBaseActiveBaseActive = true
+      secondBaseActive = true
     }
 
     firstBaseActive = true
 
     //Need code to display the transition screens
-    
+    if (scoredRuns >= 1){
+      screenMode = 4
+      screen4Displayed = false
+      storeItem("scoredRuns", scoredRuns)
+      storeItem("positiveGameAction", "Single")
+    }
+    else{
+      screenMode = 5
+      screen5Displayed = false
+      storeItem("positiveGameAction", "Single")
+    }
+
     //Code to refresh the game screen
     screen2Displayed=false
   }
@@ -477,8 +604,15 @@ function setup() {
     if (action <= 2){
       console.log("Ball")
       balls++
+      
       if (balls == 4){
         walkProcess()
+      }
+      else{
+        //Code to implement the transition screen
+        storeItem("positiveGameAction", "Ball")
+        screenMode = 5
+        screen5Displayed = false
       }
     }
     else if (firstBaseActive==true && action==3){
@@ -488,19 +622,37 @@ function setup() {
       secondBaseActive = false
 
       //Code to refresh the display of the screen
+      storeItem("negativeGameAction", "Double Play")
+      screenMode = 6
+      screen6Displayed = false
       screen2Displayed = false
     }
     else if (action==4){
       console.log("Ground Ball")
       changeBatter(true)
+
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Ground Ball")
+      screenMode = 6
+      screen6Displayed = false
     }
     else if (action==5){
       console.log("Flyball")
       changeBatter(true)
+
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Flyball")
+      screenMode = 6
+      screen6Displayed = false
     }
     else{
       console.log("Foul")
       processFouls()
+
+      //Code to display the transition screen
+      storeItem("negativeGameAction", "Foul")
+      screenMode = 6
+      screen6Displayed = false
     }
   }
 
@@ -527,6 +679,14 @@ function setup() {
       secondBaseActive = true
     }
     firstBaseActive = true
+
+    //Code to change to the new batter
+    changeBatter(false)
+
+    //Code to implement the transition screen
+    storeItem("positiveGameAction", "Walk")
+    screenMode = 5
+    screen5Displayed = false
   }
 
   //Function to change batter in the system
@@ -549,9 +709,10 @@ function setup() {
 
   //Processing a new out in the system
   function newOut(){
-    if (outs==3){
+    if (outs>=3){
 
       //Setting common variables
+      console.log("Next Inning")
       outs = 0
       screen1Displayed=false
       screenMode=1
