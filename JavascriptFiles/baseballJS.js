@@ -3,6 +3,7 @@ let screenMode;
 let opposingTeam
 let userTeam
 let passScreenSize = true;
+let horizontalScreen = true
 
 //Initialising game variables
 let inning; let userScore; let computerScore; let userAttacking; let fouls; let balls; let outs;
@@ -30,7 +31,7 @@ function initialiseVariables(){
   userTeam = "User Team"
 
   //Initialising game variables
-  inning = 1; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
+  inning = 3; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
 
   //Initialising the bases
   firstBaseActive = false ; secondBaseActive = false ; thirdBaseActive = false ; 
@@ -58,9 +59,25 @@ function setup() {
     initialiseVariables()
 
     if(windowWidth < 1240 || windowHeight < 460){
-      createCanvas(windowWidth*0.97,windowHeight*0.8)
-      background(255)
-      passScreenSize=false
+      console.log("Window Width : " + windowWidth)
+      console.log("Window Height : " + windowHeight)
+      if (windowWidth < 338 || windowHeight < 600){
+        createCanvas(windowWidth*0.97,windowHeight*0.8)
+        background(255)
+        passScreenSize=false
+      }
+      else{
+        createCanvas(338,600)
+        horizontalScreen = false
+
+        //Setting up the inputs and buttons used in the system
+        inputSetup()
+        buttonSetup()
+  
+        //Function to set up the timer for the transition screen
+        setInterval(timeIt,1000)
+
+      }
     }
     else{
       createCanvas(1240, 460)
@@ -177,17 +194,30 @@ function setup() {
 
   //Function to set up the main text and background of the home screen
   function MainScreenSetup(){
-
+    
     background(120,240,130)
 
-    //The text of the main screen
-    textSize(80)
-    textStyle(BOLD)
-    text("BASEBALL", 394, 108)
-    textSize(56)
-    textStyle(NORMAL)
-    text("Opposing Team : ", 124, 300)
-    text("User Team : ",124,200)
+    if (horizontalScreen == true){
+      //The text of the main screen
+      textSize(80)
+      textStyle(BOLD)
+      text("BASEBALL", 394, 108)
+      textSize(56)
+      textStyle(NORMAL)
+      text("Opposing Team : ", 124, 300)
+      text("User Team : ",124,200)
+    }
+    else{
+      //The text of the main screen
+      textSize(60)
+      textStyle(BOLD)
+      text("BASEBALL", 10, 100)
+      textSize(40)
+      textStyle(NORMAL)
+      text("Opposing Team : ", 20, 400)
+      text("User Team : ",40,200)
+    }
+    
 
     //Showing the inputs and buttons needed for the page
     inp1.show()
@@ -217,106 +247,218 @@ function setup() {
 
     //Setting up the display for this page
     background(220,220,220)
-    fill(0)
-    textStyle(BOLD)
-    textSize(50)
-    text("Inning : ",300,100)
-    text(inning, 600,100)
-    text(userTeam + " : ",100,240)
-    text(userScore,600,240)
-    text(opposingTeam + " : ",100,380)
-    text(computerScore,600,380)
-  
-    //Deciding whether to display top or bottom of inning
-    fill(0)
-    if (userAttacking==true){
-      triangle(680,100,760,100,720,60)
+
+    if (horizontalScreen == true){
+      fill(0)
+      textStyle(BOLD)
+      textSize(50)
+      text("Inning : ",300,100)
+      text(inning, 600,100)
+      text(userTeam + " : ",100,240)
+      text(userScore,600,240)
+      text(opposingTeam + " : ",100,380)
+      text(computerScore,600,380)
+    
+      //Deciding whether to display top or bottom of inning
+      fill(0)
+      if (userAttacking==true){
+        triangle(680,100,760,100,720,60)
+      }
+      else{
+        triangle(680,60,760,60,720,100)
+      }
     }
     else{
-      triangle(680,60,760,60,720,100)
+      fill(0)
+      textStyle(BOLD)
+      textSize(40)
+      text("Inning : ",20,100)
+      text(inning, 200,100)
+      text(userTeam + " : ",40,240)
+      text(userScore,160,340)
+      text(opposingTeam + " : ",20,440)
+      text(computerScore,160,540)
+    
+      //Deciding whether to display top or bottom of inning
+      fill(0)
+      if (userAttacking==true){
+        triangle(240,100,280,100,260,66)
+      }
+      else{
+        triangle(240,60,280,60,260,100)
+      }
     }
+
+    
+    
   }
 
   //Function to setup the code for the playing screen of the game
   function screen2Setup(){
     background(220,220,220)
 
-    //Code to split the screen into segments
-    line(310,0,310,360)
-    line(930,0,930,360)
-    line(0,360,1240,360)
+    if (horizontalScreen == true){
+      //Code to split the screen into segments
+      line(310,0,310,360)
+      line(930,0,930,360)
+      line(0,360,1240,360)
 
-    //Showing the input box for the user to enter (and text for it)
-    textSize(40)
-    fill(0)
-    text("Enter your number : ",10,420)
+      //Showing the input box for the user to enter (and text for it)
+      textSize(40)
+      fill(0)
+      text("Enter your number : ",10,420)
+
+      //Creating the playing field for the game
+      fill(120,240,130)
+      rect(310,0,670,360)
+
+      //Making the bases
+      if (firstBaseActive==false){
+        fill(255)
+        quad(920,180,880,220,840,180,880,140)
+      }
+      else{
+        fill(255,0,0)
+        quad(920,180,880,220,840,180,880,140)
+      }
+
+      if (secondBaseActive==false){
+        fill(255)
+        quad(600,60,640,20,680,60,640,100)
+      }
+      else{
+        fill(255,0,0)
+        quad(600,60,640,20,680,60,640,100)
+      }
+
+      if (thirdBaseActive==false){
+        fill(255)
+        quad(350,180,390,220,430,180,390,140)
+      }
+      else{
+        fill(255,0,0)
+        quad(350,180,390,220,430,180,390,140)
+      }
+
+      fill(255)
+      quad(600,300,640,340,680,300,640,260)
+
+      //Layout the text on the outside thirds
+
+      //First third
+      fill(0)
+      text("Score", 100,60)
+      text(userTeam + " : ",10,140)
+      text(userScore,150,200)
+      text(opposingTeam + " : ",10,280)
+      text(computerScore,150,340)
+
+      //Third third
+      text("Inning : ", 1000,80)
+      text(inning,1180,80)
+      text("Fouls : ",1000,160)
+      text(fouls,1180,160)
+      text("Balls : ",1000,240)
+      text(balls,1180,240)
+      text("Outs : ",1000,320)
+      text(outs,1180,320)
+
+      //Finding out whether user batting or pitching
+      fill(255)
+      textSize(50)
+      if (userAttacking == true){
+        text("Batting",780,320)
+      }
+      else{
+        text("Pitching", 780,320)
+      }
+    }
+
+    //Code to display the screen if the screen is vertical
+    else{
+      //Code to split the screen into segments
+      line(0,240,338,240)
+      line(0,480,338,480)
+      line(0,600,338,600)
+      line(169,240,169,480)
+
+      //Showing the input box for the user to enter (and text for it)
+      textSize(30)
+      fill(0)
+      text("Enter your number : ",20,520)
+
+      //Creating the playing field for the game
+      fill(120,240,130)
+      rect(0,0,338,300)
+
+      //Making the bases
+      if (firstBaseActive==false){
+        fill(255)
+        quad(310,160,280,190,250,160,280,130)
+      }
+      else{
+        fill(255,0,0)
+        quad(310,160,280,190,250,160,280,130)
+      }
+
+      if (secondBaseActive==false){
+        fill(255)
+        quad(140,60,170,30,200,60,170,90)
+      }
+      else{
+        fill(255,0,0)
+        quad(140,60,170,30,200,60,170,90)
+      }
+
+      if (thirdBaseActive==false){
+        fill(255)
+        quad(30,160,60,190,90,160,60,130)
+      }
+      else{
+        fill(255,0,0)
+        quad(30,160,60,190,90,160,60,130)
+      }
+
+      fill(255)
+      quad(140,240,170,270,200,240,170,210)
+
+      //Layout the text on the outside thirds
+
+      //First third
+      fill(0)
+      text("Score", 30,328)
+      textSize(20)
+      text(userTeam + " : ",20,360)
+      text(opposingTeam + " : ",10,420)
+      textSize(26)
+      text(userScore,80,390)
+      text(computerScore,80,450)
+
+      //Third third
+      text(20)
+      text("Inning : ", 180,330)
+      text("Fouls : ",180,370)
+      text("Balls : ",180,410)
+      text("Outs : ",180,450)
+      text(26)
+      text(inning,280,330)
+      text(fouls,280,370)
+      text(balls,280,410)
+      text(outs,280,450)
+      //Finding out whether user batting or pitching
+      fill(255)
+      textSize(30)
+      if (userAttacking == true){
+        text("Batting",220,280)
+      }
+      else{
+        text("Pitching", 220,280)
+      }
+    }
+
+    //Code to show the input on the screen
     inp2.show()
     inp2.value("")
-
-    //Creating the playing field for the game
-    fill(120,240,130)
-    rect(310,0,670,360)
-
-    //Making the bases
-    if (firstBaseActive==false){
-      fill(255)
-      quad(920,180,880,220,840,180,880,140)
-    }
-    else{
-      fill(255,0,0)
-      quad(920,180,880,220,840,180,880,140)
-    }
-
-    if (secondBaseActive==false){
-      fill(255)
-      quad(600,60,640,20,680,60,640,100)
-    }
-    else{
-      fill(255,0,0)
-      quad(600,60,640,20,680,60,640,100)
-    }
-
-    if (thirdBaseActive==false){
-      fill(255)
-      quad(350,180,390,220,430,180,390,140)
-    }
-    else{
-      fill(255,0,0)
-      quad(350,180,390,220,430,180,390,140)
-    }
-
-    fill(255)
-    quad(600,300,640,340,680,300,640,260)
-
-    //Layout the text on the outside thirds
-
-    //First third
-    fill(0)
-    text("Score", 100,60)
-    text(userTeam + " : ",10,140)
-    text(userScore,150,200)
-    text(opposingTeam + " : ",10,280)
-    text(computerScore,150,340)
-
-    //Third third
-    text("Inning : ", 1000,80)
-    text(inning,1180,80)
-    text("Fouls : ",1000,160)
-    text(fouls,1180,160)
-    text("Balls : ",1000,240)
-    text(balls,1180,240)
-    text("Outs : ",1000,320)
-    text(outs,1180,320)
-
-    //Finding out whether user batting or pitching
-    fill(255)
-    textSize(50)
-    if (userAttacking == true){
-      text("Batting",780,320)
-    }
-    else{
-      text("Pitching", 780,320)
-    }
 
     //Stopping this code from running again
     screen2Displayed=true
@@ -340,11 +482,23 @@ function setup() {
     background(220,220,220)
     textStyle(BOLD)
     fill(0)
-    text("Home Run Scored!",400,100)
+
+    if (horizontalScreen == true){
+      text("Home Run Scored!",400,100)
     text(userTeam + " : ",100,240)
     text(userScore,600,240)
     text(opposingTeam + " : ",100,380)
     text(computerScore,600,380)
+    }
+    else{
+      textSize(40)
+      text("Home Run",60,100)
+      text("Scored!",80,180)
+      text(userTeam + " : ",40,280)
+      text(userScore,160,380)
+      text(opposingTeam + " : ",20,480)
+      text(computerScore,160,540)
+    }
   }
 
   function screen4Setup(){
@@ -362,30 +516,61 @@ function setup() {
     //Setting the design of the screen
     background(220,220,220)
     textStyle(BOLD)
-    textSize(50)
     fill(0)
-    text(userTeam + " : ",100,240)
-    text(userScore,600,240)
-    text(opposingTeam + " : ",100,380)
-    text(computerScore,600,380)
 
-    //Deciding what output text needs to be displayed
-    if (userAttacking == true){
-      if (scoredRuns == 1){
-        text(positiveGameAction + " - " + scoredRuns + " Run Scored",400,120)
+    if (horizontalScreen == true){
+      textSize(50)
+      text(userTeam + " : ",100,240)
+      text(userScore,600,240)
+      text(opposingTeam + " : ",100,380)
+      text(computerScore,600,380)
+  
+      //Deciding what output text needs to be displayed
+      if (userAttacking == true){
+        if (scoredRuns == 1){
+          text(positiveGameAction + " - " + scoredRuns + " Run Scored",400,120)
+        }
+        else{
+          text(positiveGameAction + " - " + scoredRuns + " Runs Scored",400,120)
+        }
       }
       else{
-        text(positiveGameAction + " - " + scoredRuns + " Runs Scored",400,120)
-      }
+        if (scoredRuns ==1){
+          text(positiveGameAction + " - " + scoredRuns + " Run Conceded",380,120)
+        }
+        else{
+          text(positiveGameAction + " - " + scoredRuns + " Runs Conceded",380,120)
+        }
+      } 
     }
     else{
-      if (scoredRuns ==1){
-        text(positiveGameAction + " - " + scoredRuns + " Run Conceded",380,120)
+      textSize(40)
+      text(userTeam + " : ",40,280)
+      text(userScore,160,380)
+      text(opposingTeam + " : ",20,480)
+      text(computerScore,160,540)
+
+      //Deciding what output text needs to be displayed
+      if (userAttacking == true){
+        if (scoredRuns == 1){
+          text(positiveGameAction + " - ",100,120)
+          text(scoredRuns + " Run Scored",40,180)
+        }
+        else{
+          text(positiveGameAction + " - ",100,120)
+          text(scoredRuns + " Run Scored",40,180)
+        }
       }
       else{
-        text(positiveGameAction + " - " + scoredRuns + " Runs Conceded",380,120)
+        if (scoredRuns ==1){
+          text(positiveGameAction + " - ",100,120)
+          text(scoredRuns + " Run Conceded",10,180)
+        }
+        else{
+          text(positiveGameAction + " - ",100,120)
+          text(scoredRuns + " Runs Conceded",5,180)
+        }
       }
-      
     }
   }
 
@@ -409,11 +594,18 @@ function setup() {
     else{
       background(255,0,0)
     }
+
     textStyle(BOLD)
     fill(255)
-    textSize(200)
-    text(positiveGameAction,300,280)
-    
+
+    if (horizontalScreen == true){
+      textSize(200)
+      text(positiveGameAction,300,280)
+    }
+    else{
+      textSize(80)
+      text(positiveGameAction,40,330)
+    }
   }
 
   function screen6Setup(){
@@ -439,12 +631,31 @@ function setup() {
 
     textStyle(BOLD)
     fill(255)
-    textSize(200)
-    if (negativeGameAction == "Double Play" || negativeGameAction == "Ground Ball"){
-      text(negativeGameAction,40,280)
+
+    if (horizontalScreen == true){
+      textSize(200)
+      if (negativeGameAction == "Double Play" || negativeGameAction == "Ground Ball"){
+        text(negativeGameAction,40,280)
+      }
+      else{
+        text(negativeGameAction,300,280)
+      }
     }
     else{
-      text(negativeGameAction,300,280)
+      textSize(80)
+      if (negativeGameAction == "Double Play" || negativeGameAction == "Ground Ball"){
+        if (negativeGameAction == "Double Play"){
+          text("Double",20,240)
+          text("Play",60,320)
+        }
+        else{
+          text("Ground",20,240)
+          text("Ball",60,320)
+        }
+      }
+      else{
+        text(negativeGameAction,40,330)
+      }
     }
     
   }
@@ -457,20 +668,44 @@ function setup() {
     //Controlling the design of the screen
     background(220,220,220)
     textStyle(BOLD)
-    textSize(70)
     fill(0)
-    textSize(50)
-    text(userTeam + " : ",100,200)
-    text(userScore,600,200)
-    text(opposingTeam + " : ",100,300)
-    text(computerScore,600,300)
 
-    if(userScore > computerScore){
-      text("Final - " + userTeam + " Won ", 400,100 )
+    if (horizontalScreen == true){
+      textSize(50)
+      text(userTeam + " : ",100,200)
+      text(userScore,600,200)
+      text(opposingTeam + " : ",100,300)
+      text(computerScore,600,300)
+  
+      if(userScore > computerScore){
+        text("Final - " + userTeam + " Won ", 400,100 )
+      }
+      else{
+        text("Final - " + opposingTeam + " Won ", 400,100 )
+      }
     }
     else{
-      text("Final - " + opposingTeam + " Won ", 400,100 )
+      textSize(40)
+      text(userTeam + " : ",40,260)
+      text(userScore,160,320)
+      text(opposingTeam + " : ",20,380)
+      text(computerScore,160,440)
+
+      if(userScore > computerScore){
+        textSize(60)
+        text("Final - ", 80,60 )
+        textSize(40)
+        text(userTeam + " Won ",20,120)
+      }
+      else{
+        textSize(60)
+        text("Final - ", 80,60 )
+        textSize(40)
+        text(opposingTeam,20,120)
+        text("Won",100,180)
+      }
     }
+    
 
     //Displaying the play again button
     button2.show()
@@ -498,6 +733,12 @@ function setup() {
     inp3.size(300,60)
     inp3.input(ChangeUserTeam)
     inp3.hide()
+
+    if (horizontalScreen == false){
+      inp1.position(20,520)
+      inp2.position(30,620)
+      inp3.position(20,320)
+    }
   
   }
   
@@ -514,6 +755,11 @@ function setup() {
     button2.size(180,60)
     button2.position(520,500)
     button2.mousePressed(playAgain)
+
+    if (horizontalScreen == false){
+      button1.position(80,600)
+      button2.position(80,580)
+    }
   
   }
 

@@ -57,23 +57,20 @@ function setup() {
   
   function draw() {
     if (passScreenSize == true){
-
-      //Displaying the bottom screen for the website
-      bottomBannerSetup()
-
-
+        
       if (screenMode == 0 && screen0Displayed == false){
         screen0Setup()
+        bottomBannerSetup()
       }
 
       else if (screenMode == 1 && screen1Displayed == false){
         screen1Setup()
+        bottomBannerSetup()
       }
     }
     else{
       if (smallScreenDisplayed == false){
         smallScreenSetup()
-        bottonBannerSetup()
       }
     }
   }
@@ -81,16 +78,13 @@ function setup() {
   //Setup Functions
 
   function bottomBannerSetup(){
-    if(windowWidth < 1240 || windowHeight < 460){
-    
-    }
-    else{
-      fill(148,148,148)
-      noStroke()
-      rect(0,460,1240,580)
-      fill(220,220,220)
-      rect(0,480,1240,580,20)
-    }
+    fill(148,148,148)
+    noStroke()
+    rect(0,460,1240,580)
+    fill(220,220,220)
+    rect(0,480,1240,580,20)
+    fill(0)
+    text("Hello", 500,560)
   }
 
   function screen0Setup(){
