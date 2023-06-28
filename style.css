@@ -66,3 +66,11 @@ body{
     color:white;
 }
 
+.logo{
+  position : absolute ; 
+  height : 66px;
+  width: 66px;
+  top : 0;
+  right: 0;
+}
+

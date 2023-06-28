@@ -44,7 +44,7 @@ function setup() {
     passScreenSize=false
   }
   else{
-    createCanvas(1240, 460)
+    createCanvas(1240, 580)
 
     //Setting up the inputs and buttons used in the system
     inputSetup()
@@ -57,6 +57,11 @@ function setup() {
   
   function draw() {
     if (passScreenSize == true){
+
+      //Displaying the bottom screen for the website
+      bottomBannerSetup()
+
+
       if (screenMode == 0 && screen0Displayed == false){
         screen0Setup()
       }
@@ -68,17 +73,32 @@ function setup() {
     else{
       if (smallScreenDisplayed == false){
         smallScreenSetup()
+        bottonBannerSetup()
       }
     }
   }
 
   //Setup Functions
 
+  function bottomBannerSetup(){
+    if(windowWidth < 1240 || windowHeight < 460){
+    
+    }
+    else{
+      fill(148,148,148)
+      noStroke()
+      rect(0,460,1240,580)
+      fill(220,220,220)
+      rect(0,480,1240,580,20)
+    }
+  }
+
   function screen0Setup(){
 
     background(120,240,130)
 
     //The text of the main screen
+    fill(0)
     textSize(80)
     textStyle(BOLD)
     text("FOOTBALL", 394, 108)
