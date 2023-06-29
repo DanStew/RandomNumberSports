@@ -67,7 +67,7 @@ function setup() {
         passScreenSize=false
       }
       else{
-        createCanvas(338,600)
+        createCanvas(338,580)
         horizontalScreen = false
 
         //Setting up the inputs and buttons used in the system
@@ -378,14 +378,14 @@ function setup() {
     else{
       //Code to split the screen into segments
       line(0,240,338,240)
-      line(0,480,338,480)
+      line(0,460,338,460)
       line(0,600,338,600)
-      line(169,240,169,480)
+      line(169,240,169,460)
 
       //Showing the input box for the user to enter (and text for it)
       textSize(30)
       fill(0)
-      text("Enter your number : ",20,520)
+      text("Enter your number : ",20,500)
 
       //Creating the playing field for the game
       fill(120,240,130)
@@ -709,6 +709,7 @@ function setup() {
 
     //Displaying the play again button
     button2.show()
+    inp2.hide()
   }
 
   function inputSetup(){
@@ -736,7 +737,7 @@ function setup() {
 
     if (horizontalScreen == false){
       inp1.position(20,520)
-      inp2.position(30,620)
+      inp2.position(30,600)
       inp3.position(20,320)
     }
   
@@ -840,7 +841,7 @@ function setup() {
   }
 
   function processScoreDefence(computerValue,userValue,chance){
-    
+
     //Finding the difference between the two values
     difference = findDifference(userValue,computerValue)
 
@@ -884,8 +885,15 @@ function setup() {
       computerNoHitProcess()
     }
 
-    //Make changes to the game screen
-    screen2Displayed=false
+    //Ensuring game doesn't continue if user is winning
+    if (inning == 3 && computerScore > userScore){
+      screenMode = 7
+      screen7Displayed = false
+    }
+    else{
+      //Make changes to the game screen
+      screen2Displayed=false
+    }    
   }
 
   //Functions to change the users scores
