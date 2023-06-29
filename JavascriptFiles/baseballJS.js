@@ -122,7 +122,12 @@ function setup() {
         screen3Setup()
       }
       else if (screenMode==3){
-        if (counter>=3){
+        if (counter >= 2 && userAttacking == false && computerScore > userScore && inning == 3){
+          //Ensuring game doesn't continue if user is winning
+          screenMode = 7
+          screen7Displayed = false
+        }
+        else if (counter>=3){
           screenMode=2
         }
       }
@@ -132,7 +137,12 @@ function setup() {
         screen4Setup()
       }
       else if (screenMode == 4){
-        if (counter>=3){
+        if (counter >= 2 && userAttacking == false && computerScore > userScore && inning == 3){
+          //Ensuring game doesn't continue if user is winning
+          screenMode = 7
+          screen7Displayed = false
+        }
+        else if (counter>=3){
           screenMode=2
         }
       }
@@ -885,15 +895,9 @@ function setup() {
       computerNoHitProcess()
     }
 
-    //Ensuring game doesn't continue if user is winning
-    if (inning == 3 && computerScore > userScore){
-      screenMode = 7
-      screen7Displayed = false
-    }
-    else{
-      //Make changes to the game screen
-      screen2Displayed=false
-    }    
+    //Make changes to the game screen
+    screen2Displayed=false
+        
   }
 
   //Functions to change the users scores
