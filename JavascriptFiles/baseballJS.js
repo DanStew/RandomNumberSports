@@ -31,7 +31,7 @@ function initialiseVariables(){
   userTeam = "User Team"
 
   //Initialising game variables
-  inning = 3; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
+  inning = 1; userScore = 0 ; computerScore = 0 ; userAttacking = true; fouls = 0 ;balls = 0; outs = 0;
 
   //Initialising the bases
   firstBaseActive = false ; secondBaseActive = false ; thirdBaseActive = false ; 
@@ -61,7 +61,7 @@ function setup() {
     if(windowWidth < 1240 || windowHeight < 460){
       console.log("Window Width : " + windowWidth)
       console.log("Window Height : " + windowHeight)
-      if (windowWidth < 338 || windowHeight < 600){
+      if (windowWidth < 338 || windowHeight < 580){
         createCanvas(windowWidth*0.97,windowHeight*0.8)
         background(255)
         passScreenSize=false
@@ -107,7 +107,7 @@ function setup() {
       }
       else if (screenMode == 1){
         //Should be 5 / 10 seconds
-        if (counter >= 1){
+        if (counter >= 4){
           screenMode = 2
         }
       }
