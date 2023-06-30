@@ -116,7 +116,7 @@ function setup() {
         bottomBannerSetup()
       }
       else if (screenMode == 2){
-        if (counter >= 2 && userPenalty >= 5 && computerPenalty >= 5){
+        if (counter >= 2 && userPenalty >= 5 && computerPenalty >= 5 && userPenalty == computerPenalty){
           if (userScore != computerScore){
             gameEnd()
           }
@@ -137,7 +137,7 @@ function setup() {
         bottomBannerSetup()
       }
       else if (screenMode == 3){
-        if (counter >= 2 && userPenalty >= 5 && computerPenalty >= 5){
+        if (counter >= 2 && userPenalty >= 5 && computerPenalty >= 5 && userPenalty == computerPenalty){
           if (userScore != computerScore){
             gameEnd()
           }
@@ -284,50 +284,8 @@ function setup() {
     //text(computerScore,150,340)
 
     //Displaying the circles for the penalties
-    stroke(0)
-    //User Penalties
-    fill(localStorage.getItem("UserPenalty1"))
-    circle(30,200,40)
-    fill(localStorage.getItem("UserPenalty2"))
-    circle(80,200,40)
-    fill(localStorage.getItem("UserPenalty3"))
-    circle(130,200,40)
-    fill(localStorage.getItem("UserPenalty4"))
-    circle(180,200,40)
-    fill(localStorage.getItem("UserPenalty5"))
-    circle(230,200,40)
-
-    //Computer Penalties
-    fill(localStorage.getItem("ComputerPenalty1"))
-    circle(30,320,40)
-    fill(localStorage.getItem("ComputerPenalty2"))
-    circle(80,320,40)
-    fill(localStorage.getItem("ComputerPenalty3"))
-    circle(130,320,40)
-    fill(localStorage.getItem("ComputerPenalty4"))
-    circle(180,320,40)
-    fill(localStorage.getItem("ComputerPenalty5"))
-    circle(230,320,40)
-
-    if (suddenDeath == true){
-      if (userPenalty == computerPenalty){
-        fill(255)
-        circle(280,200,40)
-        circle(280,320,40)
-        storeItem("UserPenalty6",255)
-        storeItem("ComputerPenalty6",255)
-      }
-      else{
-        fill(localStorage.getItem("UserPenalty6"))
-        circle(280,200,40)
-        fill(localStorage.getItem("ComputerPenalty6"))
-        circle(280,320,40)
-      }
-      
-    }
+    displayCircles()
     
-
-
     //Setting whether user is taking or saving
     
     textSize(50)
@@ -361,16 +319,10 @@ function setup() {
     inp3.hide()
     fill(255)
 
-    if (userAttacking == true){
-      userAttacking = false
-      background(120,240,130)
-      text("Penalty Scored",30,260)
-    }
-    else{
-      userAttacking = true
-      background(255,0,0)
-      text("Penalty Scored",30,260)
-    }
+    userAttacking = !userAttacking
+
+    background(120,240,130)
+    text("Penalty Scored",30,260)
 
     //Code to ensure code isn't repeated
     screen2Displayed = true
@@ -385,16 +337,12 @@ function setup() {
     textStyle(BOLD)
     fill(255)
 
-    if (userAttacking == false){
-      userAttacking = true
-      background(120,240,130)
-      text("Penalty Missed",30,260)
-    }
-    else{
-      userAttacking = false
-      background(255,0,0)
-      text("Penalty Missed",30,260)
-    }
+    //Swapping turns
+    userAttacking = !userAttacking
+
+    //Displaying the message
+    background(255,0,0)
+    text("Penalty Missed",30,260)
 
     //Code to ensure code isn't repeated
     screen3Displayed = true
@@ -411,10 +359,14 @@ function setup() {
     if (horizontalScreen == true){
       textSize(50)
       text(userTeam + " : ",100,200)
-      text(userScore,600,200)
       text(opposingTeam + " : ",100,300)
-      text(computerScore,600,300)
+      text(userScore,500,200)
+      text(computerScore,500,300)
+
+      //Displaying the circles onto the screen
+      displayCircles()
   
+      fill(0)
       if(userScore > computerScore){
         text("Final - " + userTeam + " Won ", 400,100 )
       }
@@ -450,7 +402,7 @@ function setup() {
     inp2.hide()
 
     //Code to ensure code isn't repeated
-    screen4Displayed = false
+    screen4Displayed = true
   }
 
   //Function to set up the screen if the screen size is too small for the system
@@ -633,6 +585,53 @@ function setup() {
     screen4Displayed = false
   }
 
+  function mouseClicked(){
+    console.log(mouseX)
+    console.log(mouseY)
+    if (mouseX >= 420 && mouseX <= 645){
+      if (mouseY >= 120 && mouseY <= 191){
+        buttonGameAction(1)
+      }
+      else if (mouseY >= 195 && mouseY <= 267){
+        buttonGameAction(4)
+      }
+      else if (mouseY >= 270 && mouseY <= 339){
+        buttonGameAction(7)
+      }
+    }
+    else if (mouseX >= 648 && mouseX <= 892){
+      if (mouseY >= 120 && mouseY <= 191){
+        buttonGameAction(2)
+      }
+      else if (mouseY >= 195 && mouseY <= 267){
+        buttonGameAction(5)
+      }
+      else if (mouseY >= 270 && mouseY <= 339){
+        buttonGameAction(8)
+      }
+    }
+    else if (mouseX >= 894 && mouseX <= 1158){
+      if (mouseY >= 120 && mouseY <= 191){
+        buttonGameAction(3)
+      }
+      else if (mouseY >= 195 && mouseY <= 267){
+        buttonGameAction(6)
+      }
+      else if (mouseY >= 270 && mouseY <= 339){
+        buttonGameAction(9)
+      }
+    }
+  }
+
+  //Function to process the inputs of the user in the game
+  function buttonGameAction(userValue){
+    console.log(userValue)
+    computerValue = round(random(1,9))
+    chance = round(random(1,3))
+
+    takingPenaltyProcess(userValue,computerValue,chance)
+  }
+
   //Other Functions
 
   //Function to change the value of the opposing team to that inputted by the user
@@ -674,4 +673,101 @@ function setup() {
     screenMode = 0
     screen0Displayed = false
     initialiseVariables()
+  }
+
+  //Function to display the circles
+  function displayCircles(){
+    //Displaying the circles for the penalties
+    stroke(0)
+
+    if (screenMode == 1 && horizontalScreen == true){
+      //User Penalties
+      fill(localStorage.getItem("UserPenalty1"))
+      circle(30,200,40)
+      fill(localStorage.getItem("UserPenalty2"))
+      circle(80,200,40)
+      fill(localStorage.getItem("UserPenalty3"))
+      circle(130,200,40)
+      fill(localStorage.getItem("UserPenalty4"))
+      circle(180,200,40)
+      fill(localStorage.getItem("UserPenalty5"))
+      circle(230,200,40)
+
+      //Computer Penalties
+      fill(localStorage.getItem("ComputerPenalty1"))
+      circle(30,320,40)
+      fill(localStorage.getItem("ComputerPenalty2"))
+      circle(80,320,40)
+      fill(localStorage.getItem("ComputerPenalty3"))
+      circle(130,320,40)
+      fill(localStorage.getItem("ComputerPenalty4"))
+      circle(180,320,40)
+      fill(localStorage.getItem("ComputerPenalty5"))
+      circle(230,320,40)
+    }
+    else if (screenMode == 1){
+
+    }
+    else if (screenMode == 4 && horizontalScreen == true){
+
+      //User Penalties
+      fill(localStorage.getItem("UserPenalty1"))
+      circle(630,180,40)
+      fill(localStorage.getItem("UserPenalty2"))
+      circle(680,180,40)
+      fill(localStorage.getItem("UserPenalty3"))
+      circle(730,180,40)
+      fill(localStorage.getItem("UserPenalty4"))
+      circle(780,180,40)
+      fill(localStorage.getItem("UserPenalty5"))
+      circle(830,180,40)
+
+      //Computer Penalties
+      fill(localStorage.getItem("ComputerPenalty1"))
+      circle(630,280,40)
+      fill(localStorage.getItem("ComputerPenalty2"))
+      circle(680,280,40)
+      fill(localStorage.getItem("ComputerPenalty3"))
+      circle(730,280,40)
+      fill(localStorage.getItem("ComputerPenalty4"))
+      circle(780,280,40)
+      fill(localStorage.getItem("ComputerPenalty5"))
+      circle(830,280,40)
+    }
+    
+
+    if (suddenDeath == true){
+      if (userPenalty == computerPenalty){
+        fill(255)
+
+        if (screenMode == 1 && horizontalScreen == true){
+          circle(280,200,40)
+          circle(280,320,40)
+        }
+        else if (screenMode == 1){
+
+        }
+        else if (screenMode == 4 && horizontalScreen == true){
+          fill(localStorage.getItem("UserPenalty6"))
+          circle(880,180,40)
+          fill(localStorage.getItem("ComputerPenalty6"))
+          circle(880,280,40)
+        }
+    
+        storeItem("UserPenalty6",255)
+        storeItem("ComputerPenalty6",255)
+      }
+      else{
+        if (screenMode == 1 && horizontalScreen == true){
+          fill(localStorage.getItem("UserPenalty6"))
+          circle(280,200,40)
+          fill(localStorage.getItem("ComputerPenalty6"))
+          circle(280,320,40)
+        }
+        else if (screenMode == 1){
+
+        }
+      }
+      
+    }
   }
