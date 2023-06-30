@@ -2,7 +2,7 @@
 let screenMode //Defines what screen the system shows
 let counter // Timer Variable
 let passScreenSize // Variable testing whether screen large enough or not
-let horizontalScreen // Variable to decide how the screen is displayed
+let horizontalScreen = true// Variable to decide how the screen is displayed
 let opposingTeam //The opposing team name of the system
 let userTeam //The user team name of the system
 let userScore //The score of the user
@@ -23,7 +23,6 @@ function initialiseVariables(){
   screenMode = 0
   counter = 0 
   passScreenSize = true
-  horizontalScreen = true
   opposingTeam = "The Computer"
   userTeam = "User Team"
   userScore = 0
@@ -238,76 +237,142 @@ function setup() {
     //Code to display the design of the screen
     background(220,220,220)
 
-    //Code to split the screen into segments
-    stroke(0)
-    line(310,0,310,360)
-    line(0,360,1240,360)
+    if (horizontalScreen == true){
+      //Code to split the screen into segments
+      stroke(0)
+      line(310,0,310,360)
+      line(0,360,1240,360)
 
-    //Showing the input box for the user to enter (and text for it)
-    textSize(40)
-    textStyle(NORMAL)
-    fill(0)
-    text("Enter your number : ",10,420)
+      //Showing the input box for the user to enter (and text for it)
+      textSize(40)
+      textStyle(NORMAL)
+      fill(0)
+      text("Enter your number : ",10,420)
 
-    //Creating the playing field for the game
-    fill(120,240,130)
-    rect(310,0,1240,360)
+      //Creating the playing field for the game
+      noStroke()
+      fill(120,240,130)
+      rect(310,0,1240,360)
 
-    //Code for the shape of the goal
-    fill(255)
-    noStroke()
-    //Post rectangles
-    rect(360,60,60,280)
-    rect(360,60,800,60)
-    rect(1160,60,60,280)
+      //Code for the shape of the goal
+      fill(255)
+      //Post rectangles
+      rect(360,60,60,280)
+      rect(360,60,800,60)
+      rect(1160,60,60,280)
 
-    //Inside of goal
-    fill(0,181,226)
-    rect(420,120,740,220)
-    fill(255)
-    rect(646,120,2,220)
-    rect(893,120,2,220)
-    rect(420,193,740,2)
-    rect(420,267,740,2)
+      //Inside of goal
+      fill(0,181,226)
+      rect(420,120,740,220)
+      fill(255)
+      rect(646,120,2,220)
+      rect(893,120,2,220)
+      rect(420,193,740,2)
+      rect(420,267,740,2)
 
-    //Putting the numbers inside the net
-    textSize(30)
-    textStyle(BOLD)
-    text("1",533,167)
-    text("2",770,167)
-    text("3",997,167)
-    text("4",533,236)
-    text("5",770,236)
-    text("6",997,236)
-    text("7",533,310)
-    text("8",770,310)
-    text("9",997,310)
-    
-    //First third
-    fill(0)
-    textStyle(BOLD)
-    textSize(40)
-    text("Score", 100,60)
-    text(userTeam + " : ",10,140)
-    //text(userScore,150,200)
-    text(opposingTeam + " : ",10,280)
-    //text(computerScore,150,340)
+      //Putting the numbers inside the net
+      textSize(30)
+      textStyle(BOLD)
+      text("1",533,167)
+      text("2",770,167)
+      text("3",997,167)
+      text("4",533,236)
+      text("5",770,236)
+      text("6",997,236)
+      text("7",533,310)
+      text("8",770,310)
+      text("9",997,310)
+
+      //First third
+      fill(0)
+      textStyle(BOLD)
+      textSize(40)
+      text("Score", 100,60)
+      text(userTeam + " : ",10,140)
+      text(opposingTeam + " : ",10,280)
+
+      //Setting whether user is taking or saving
+      textSize(50)
+      fill(255)
+      rect(540,20,440,80)
+      fill(0)
+      if (userAttacking == true){
+        text("Taking Penalty",580,80)
+      }
+      else{
+        text("Saving Penalty",580,80)
+      }
+    }
+    else{
+      //Code to split the screen into segments
+      stroke(0)
+      line(0,220,338,220)
+      line(0,420,338,420)
+
+      //Showing the input box for the user to enter (and text for it)
+      textSize(36)
+      textStyle(NORMAL)
+      fill(0)
+      text("Enter your number : ",10,470)
+
+      //Creating the playing field for the game
+      noStroke()
+      fill(120,240,130)
+      rect(0,0,338,220)
+
+      //Code for the shape of the goal
+      fill(255)
+      //Post rectangles
+      rect(20,20,30,180)
+      rect(20,20,260,30)
+      rect(280,20,30,180)
+
+      //Inside of goal
+      fill(0,181,226)
+      rect(50,50,230,150)
+      fill(255)
+      rect(126,50,2,150)
+      rect(204,50,2,150)
+      rect(50,100,230,2)
+      rect(50,150,230,2)
+
+      //Putting the numbers inside the net
+      textSize(30)
+      textStyle(BOLD)
+      text("1",80,85)
+      text("2",160,85)
+      text("3",236,85)
+      text("4",80,135)
+      text("5",160,135)
+      text("6",236,135)
+      text("7",80,185)
+      text("8",160,185)
+      text("9",236,185)
+
+      //Second Third third
+      fill(0)
+      textStyle(BOLD)
+      textSize(30)
+      text(userTeam + " : ",60,260)
+      text(opposingTeam + " : ",50,350)
+
+      //Setting whether user is taking or saving
+      textSize(26)
+      fill(255)
+      rect(60,10,210,30)
+      fill(0)
+      if (userAttacking == true){
+        text("Taking Penalty",80,34)
+      }
+      else{
+        text("Saving Penalty",80,34)
+      }
+
+    }
 
     //Displaying the circles for the penalties
     displayCircles()
     
-    //Setting whether user is taking or saving
-    
-    textSize(50)
-    fill(255)
-    rect(540,20,440,80)
-    fill(0)
-    if (userAttacking == true){
-      text("Taking Penalty",580,80)
-    }
-    else{
-      text("Saving Penalty",580,80)
-    }
 
     //Code to hide and show buttons and inputs
     inp1.hide()
@@ -324,16 +389,23 @@ function setup() {
   function screen2Setup(){
     
     counter = 0
-    textSize(160)
-    textStyle(BOLD)
+    userAttacking = !userAttacking
     inp3.hide()
+    background(120,240,130)
     fill(255)
 
-    userAttacking = !userAttacking
-
-    background(120,240,130)
-    text("Penalty Scored",30,260)
-
+    if (horizontalScreen == true){
+      textSize(160)
+      textStyle(BOLD)
+      text("Penalty Scored",30,260)
+    }
+    else{
+      textSize(80)
+      textStyle(BOLD)
+      text("Penalty",20,260)
+      text("Scored",20,350)
+    }
+    
     //Code to ensure code isn't repeated
     screen2Displayed = true
   }
@@ -343,16 +415,25 @@ function setup() {
     background(255,0,0)
     counter = 0 
     inp3.hide()
-    textSize(160)
-    textStyle(BOLD)
+    
     fill(255)
 
     //Swapping turns
     userAttacking = !userAttacking
 
     //Displaying the message
-    background(255,0,0)
-    text("Penalty Missed",30,260)
+    if (horizontalScreen == true){
+      textSize(160)
+      textStyle(BOLD)
+      text("Penalty Missed",30,260)
+    }
+    else{
+      textSize(80)
+      textStyle(BOLD)
+      text("Penalty",20,260)
+      text("Missed",20,350)
+    }
+    
 
     //Code to ensure code isn't repeated
     screen3Displayed = true
@@ -372,9 +453,6 @@ function setup() {
       text(opposingTeam + " : ",100,300)
       text(userScore,500,200)
       text(computerScore,500,300)
-
-      //Displaying the circles onto the screen
-      displayCircles()
   
       fill(0)
       if(userScore > computerScore){
@@ -385,27 +463,31 @@ function setup() {
       }
     }
     else{
-      textSize(40)
-      text(userTeam + " : ",40,260)
-      text(userScore,160,320)
-      text(opposingTeam + " : ",20,380)
-      text(computerScore,160,440)
+      textSize(32)
+      text(userTeam + " : ",20,260)
+      text(userScore,280,260)
+      text(opposingTeam + " : ",10,380)
+      text(computerScore,280,380)
 
       if(userScore > computerScore){
         textSize(60)
+        fill(0)
         text("Final - ", 80,60 )
         textSize(40)
-        text(userTeam + " Won ",20,120)
+        text(userTeam,20,120)
+        text("Won",110,180)
       }
       else{
         textSize(60)
         text("Final - ", 80,60 )
         textSize(40)
         text(opposingTeam,20,120)
-        text("Won",100,180)
+        text("Won",110,180)
       }
     }
-    
+  
+    //Displaying the circles onto the screen
+    displayCircles()
 
     //Displaying the play again button
     button2.show()
@@ -420,11 +502,20 @@ function setup() {
     
     //Designing the display of the screen
     inp3.hide()
-    textSize(160)
-    textStyle(BOLD)
     fill(255)
     background(255,0,0)
-    text("Sudden Death",30,260)
+    textStyle(BOLD)
+
+    if (horizontalScreen == true){
+      textSize(160)
+      text("Sudden Death",30,260)
+    }
+    else{
+      textSize(90)
+      text("Sudden",10,260)
+      text("Death",30,350)
+    }
+    
 
     //Ensuring code isn't repeated
     screen5Displayed = true
@@ -471,6 +562,7 @@ function setup() {
     if (horizontalScreen == false){
       inp1.position(20,520)
       inp2.position(20,320)
+      inp3.position(30,580)
     }
   }
 
@@ -728,7 +820,29 @@ function setup() {
       circle(230,320,40)
     }
     else if (screenMode == 1){
+      //User Penalties
+      fill(localStorage.getItem("UserPenalty1"))
+      circle(40,290,32)
+      fill(localStorage.getItem("UserPenalty2"))
+      circle(90,290,32)
+      fill(localStorage.getItem("UserPenalty3"))
+      circle(140,290,32)
+      fill(localStorage.getItem("UserPenalty4"))
+      circle(190,290,32)
+      fill(localStorage.getItem("UserPenalty5"))
+      circle(240,290,32)
 
+      //Computer Penalties
+      fill(localStorage.getItem("ComputerPenalty1"))
+      circle(40,380,32)
+      fill(localStorage.getItem("ComputerPenalty2"))
+      circle(90,380,32)
+      fill(localStorage.getItem("ComputerPenalty3"))
+      circle(140,380,32)
+      fill(localStorage.getItem("ComputerPenalty4"))
+      circle(190,380,32)
+      fill(localStorage.getItem("ComputerPenalty5"))
+      circle(240,380,32)
     }
     else if (screenMode == 4 && horizontalScreen == true){
 
@@ -756,6 +870,31 @@ function setup() {
       fill(localStorage.getItem("ComputerPenalty5"))
       circle(830,280,40)
     }
+    else if (screenMode == 4){
+      //User Penalties
+      fill(localStorage.getItem("UserPenalty1"))
+      circle(70,320,32)
+      fill(localStorage.getItem("UserPenalty2"))
+      circle(110,320,32)
+      fill(localStorage.getItem("UserPenalty3"))
+      circle(150,320,32)
+      fill(localStorage.getItem("UserPenalty4"))
+      circle(190,320,32)
+      fill(localStorage.getItem("UserPenalty5"))
+      circle(230,320,32)
+
+      //Computer Penalties
+      fill(localStorage.getItem("ComputerPenalty1"))
+      circle(70,440,32)
+      fill(localStorage.getItem("ComputerPenalty2"))
+      circle(110,440,32)
+      fill(localStorage.getItem("ComputerPenalty3"))
+      circle(150,440,32)
+      fill(localStorage.getItem("ComputerPenalty4"))
+      circle(190,440,32)
+      fill(localStorage.getItem("ComputerPenalty5"))
+      circle(230,440,32)
+    }
     
 
     if (suddenDeath == true){
@@ -767,13 +906,20 @@ function setup() {
           circle(280,320,40)
         }
         else if (screenMode == 1){
-
+          circle(290,290,32)
+          circle(290,380,32)
         }
         else if (screenMode == 4 && horizontalScreen == true){
           fill(localStorage.getItem("UserPenalty6"))
           circle(880,180,40)
           fill(localStorage.getItem("ComputerPenalty6"))
           circle(880,280,40)
+        }
+        else{
+          fill(localStorage.getItem("UserPenalty6"))
+          circle(280,320,32)
+          fill(localStorage.getItem("ComputerPenalty6"))
+          circle(280,440,32)
         }
     
         storeItem("UserPenalty6",255)
@@ -787,7 +933,10 @@ function setup() {
           circle(280,320,40)
         }
         else if (screenMode == 1){
-
+          fill(localStorage.getItem("UserPenalty6"))
+          circle(290,290,32)
+          fill(localStorage.getItem("ComputerPenalty6"))
+          circle(290,380,32)
         }
       }
       
