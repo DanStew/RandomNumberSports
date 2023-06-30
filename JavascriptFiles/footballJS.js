@@ -17,7 +17,7 @@ let button1
 let userPenalty ; let computerPenalty ; let suddenDeath
 
 //Screen Mode Variables
-let screen0Displayed ; let smallScreenDisplayed; let screen1Displayed ; let screen2Displayed ; let screen3Displayed ; let screen4Displayed
+let screen0Displayed ; let smallScreenDisplayed; let screen1Displayed ; let screen2Displayed ; let screen3Displayed ; let screen4Displayed ; let screen5Displayed
 
 function initialiseVariables(){
   screenMode = 0
@@ -36,6 +36,7 @@ function initialiseVariables(){
   screen2Displayed = false
   screen3Displayed = false
   screen4Displayed = false
+  screen5Displayed = false
   smallScreenDisplayed = false
 
   //Initialising game variables
@@ -122,8 +123,7 @@ function setup() {
           }
           else{
             suddenDeath = true
-            screenMode = 1
-            screen1Displayed = false
+            screenMode = 5
           }
         }
         else if (counter >= 2){
@@ -143,8 +143,7 @@ function setup() {
           }
           else{
             suddenDeath = true
-            screenMode = 1
-            screen1Displayed = false
+            screenMode = 5
           }
         }
         else if (counter >= 2){
@@ -156,6 +155,17 @@ function setup() {
       else if (screenMode == 4 && screen4Displayed == false){
         screen4Setup()
         bottomBannerSetup()
+      }
+
+      else if (screenMode == 5 && screen5Displayed == false){
+        screen5Setup()
+        bottomBannerSetup()
+      }
+      else if (screenMode == 5){
+        if (counter >= 2){
+          screenMode = 1
+          screen1Displayed = false
+        }
       }
     }
     else{
@@ -405,6 +415,21 @@ function setup() {
     screen4Displayed = true
   }
 
+  function screen5Setup(){
+    counter = 0
+    
+    //Designing the display of the screen
+    inp3.hide()
+    textSize(160)
+    textStyle(BOLD)
+    fill(255)
+    background(255,0,0)
+    text("Sudden Death",30,260)
+
+    //Ensuring code isn't repeated
+    screen5Displayed = true
+  }
+
   //Function to set up the screen if the screen size is too small for the system
   function smallScreenSetup(){
     fill(0)
@@ -586,8 +611,6 @@ function setup() {
   }
 
   function mouseClicked(){
-    console.log(mouseX)
-    console.log(mouseY)
     if (mouseX >= 420 && mouseX <= 645){
       if (mouseY >= 120 && mouseY <= 191){
         buttonGameAction(1)
@@ -625,7 +648,6 @@ function setup() {
 
   //Function to process the inputs of the user in the game
   function buttonGameAction(userValue){
-    console.log(userValue)
     computerValue = round(random(1,9))
     chance = round(random(1,3))
 
