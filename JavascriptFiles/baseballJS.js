@@ -59,8 +59,6 @@ function setup() {
     initialiseVariables()
 
     if(windowWidth < 1240 || windowHeight < 460){
-      console.log("Window Width : " + windowWidth)
-      console.log("Window Height : " + windowHeight)
       if (windowWidth < 338 || windowHeight < 580){
         createCanvas(windowWidth*0.97,windowHeight*0.8)
         background(255)

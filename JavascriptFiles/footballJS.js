@@ -703,39 +703,77 @@ function setup() {
   }
 
   function mouseClicked(){
-    if (mouseX >= 420 && mouseX <= 645){
-      if (mouseY >= 120 && mouseY <= 191){
-        buttonGameAction(1)
+    if (horizontalScreen == true){
+      if (mouseX >= 420 && mouseX <= 645){
+        if (mouseY >= 120 && mouseY <= 191){
+          buttonGameAction(1)
+        }
+        else if (mouseY >= 195 && mouseY <= 267){
+          buttonGameAction(4)
+        }
+        else if (mouseY >= 270 && mouseY <= 339){
+          buttonGameAction(7)
+        }
       }
-      else if (mouseY >= 195 && mouseY <= 267){
-        buttonGameAction(4)
+      else if (mouseX >= 648 && mouseX <= 892){
+        if (mouseY >= 120 && mouseY <= 191){
+          buttonGameAction(2)
+        }
+        else if (mouseY >= 195 && mouseY <= 267){
+          buttonGameAction(5)
+        }
+        else if (mouseY >= 270 && mouseY <= 339){
+          buttonGameAction(8)
+        }
       }
-      else if (mouseY >= 270 && mouseY <= 339){
-        buttonGameAction(7)
+      else if (mouseX >= 894 && mouseX <= 1158){
+        if (mouseY >= 120 && mouseY <= 191){
+          buttonGameAction(3)
+        }
+        else if (mouseY >= 195 && mouseY <= 267){
+          buttonGameAction(6)
+        }
+        else if (mouseY >= 270 && mouseY <= 339){
+          buttonGameAction(9)
+        }
       }
     }
-    else if (mouseX >= 648 && mouseX <= 892){
-      if (mouseY >= 120 && mouseY <= 191){
-        buttonGameAction(2)
+    else{
+      if (mouseX >= 50 && mouseX <= 125){
+        if (mouseY >= 50 && mouseY <= 98){
+          buttonGameAction(1)
+        }
+        else if (mouseY >= 102 && mouseY <= 149){
+          buttonGameAction(4)
+        }
+        else if (mouseY >= 151 && mouseY <= 199){
+          buttonGameAction(7)
+        }
       }
-      else if (mouseY >= 195 && mouseY <= 267){
-        buttonGameAction(5)
+      else if (mouseX >= 128 && mouseX <= 202){
+        if (mouseY >= 50 && mouseY <= 98){
+          buttonGameAction(2)
+        }
+        else if (mouseY >= 102 && mouseY <= 149){
+          buttonGameAction(5)
+        }
+        else if (mouseY >= 151 && mouseY <= 199){
+          buttonGameAction(8)
+        }
       }
-      else if (mouseY >= 270 && mouseY <= 339){
-        buttonGameAction(8)
+      else if (mouseX >= 206 && mouseX <= 278){
+        if (mouseY >= 50 && mouseY <= 98){
+          buttonGameAction(3)
+        }
+        else if (mouseY >= 102 && mouseY <= 149){
+          buttonGameAction(6)
+        }
+        else if (mouseY >= 151 && mouseY <= 199){
+          buttonGameAction(9)
+        }
       }
     }
-    else if (mouseX >= 894 && mouseX <= 1158){
-      if (mouseY >= 120 && mouseY <= 191){
-        buttonGameAction(3)
-      }
-      else if (mouseY >= 195 && mouseY <= 267){
-        buttonGameAction(6)
-      }
-      else if (mouseY >= 270 && mouseY <= 339){
-        buttonGameAction(9)
-      }
-    }
+    
   }
 
   //Function to process the inputs of the user in the game
