@@ -65,7 +65,7 @@ function setup() {
         passScreenSize=false
       }
       else{
-        createCanvas(338,580)
+        createCanvas(338,680)
         horizontalScreen = false
 
         //Setting up the inputs and buttons used in the system
@@ -78,7 +78,7 @@ function setup() {
       }
     }
     else{
-      createCanvas(1240, 460)
+      createCanvas(1240, 580)
 
       //Setting up the inputs and buttons used in the system
       inputSetup()
@@ -97,11 +97,13 @@ function setup() {
       //Setting up the home screen of the game
       if (screenMode == 0 && screen0Displayed==false){
         MainScreenSetup()
+        bottomBannerSetup()
       }
 
       //Setting up the transition screen of the website
       else if (screenMode == 1 && screen1Displayed==false){
         screen1Setup()
+        bottomBannerSetup()
       }
       else if (screenMode == 1){
         //Should be 5 / 10 seconds
@@ -113,11 +115,13 @@ function setup() {
       //Setting up the play screen of the website (Batting)
       else if (screenMode == 2 && screen2Displayed==false){
         screen2Setup()
+        bottomBannerSetup()
       }
 
       //Displaying the home run screen of the website
       else if (screenMode==3 && screen3Displayed==false){
         screen3Setup()
+        bottomBannerSetup()
       }
       else if (screenMode==3){
         if (counter >= 2 && userAttacking == false && computerScore > userScore && inning == 3){
@@ -133,6 +137,7 @@ function setup() {
       //Displaying the runs scored screen (other than home runs)
       else if (screenMode ==4 && screen4Displayed==false){
         screen4Setup()
+        bottomBannerSetup()
       }
       else if (screenMode == 4){
         if (counter >= 2 && userAttacking == false && computerScore > userScore && inning == 3){
@@ -148,6 +153,7 @@ function setup() {
       //Displaying the Positive Game Action Screen
       else if (screenMode == 5 && screen5Displayed == false){
         screen5Setup()
+        bottomBannerSetup()
       }
       else if (screenMode == 5){
         if (counter>=2){
@@ -158,6 +164,7 @@ function setup() {
       //Displaying the Negative Game Action Screen
       else if (screenMode == 6 && screen6Displayed == false){
         screen6Setup()
+        bottomBannerSetup()
       }
       else if (screenMode == 6){
         if (counter>=2){
@@ -172,6 +179,7 @@ function setup() {
 
       else if (screenMode == 7 && screen7Displayed == false){
         screen7Setup()
+        bottomBannerSetup()
       }
     }
 
@@ -179,12 +187,52 @@ function setup() {
     else{
       if (smallScreenDisplayed==false){
         smallScreenSetup()
+        bottomBannerSetup()
       }
     } 
   }
 
 
 //Setup Functions
+
+//Setup Functions
+
+  //Function to setup the bottom banner on the screen
+  function bottomBannerSetup(){
+    fill(148,148,148)
+    textStyle(BOLD)
+    noStroke()
+
+    if (horizontalScreen == true){
+      textSize(30)
+      rect(0,460,1240,580)
+      fill(220,220,220)
+      rect(0,480,1240,580,20)
+      fill(0)
+      text("Random Number Sports", 440,520)
+      textSize(24)
+      text("Tiktok",820,560)
+      textStyle(NORMAL)
+      text("Contact : randomnumbersports@gmail.com", 280,560)  
+      stroke(0)
+      line(824,564,894,564)
+    }
+    else{
+      textSize(26)
+      rect(0,580,338,680)
+      fill(220,220,220)
+      rect(0,600,338,600,20)
+      fill(0)
+      text("Home Screen", 20,630)
+      text("Tiktok",220,630)
+      textSize(16)
+      textStyle(NORMAL)
+      text("Contact : randomnumbersports@gmail.com", 10,660)  
+      stroke(0)
+      line(20,634,186,634)
+      line(220,634,296,634)
+    }
+  }
 
   //Function to setup the screen for when the users screen is too small
   function smallScreenSetup(){
@@ -1412,4 +1460,25 @@ function setup() {
     screenMode = 0
     screen0Displayed = false
     initialiseVariables()
+  }
+
+  function mouseClicked(){
+    if (horizontalScreen == true){
+      //Code to link to the bottom banner tiktok
+      if (mouseX >=820 && mouseX <=894){
+        if (mouseY >= 542 && mouseY <= 565){
+          window.open("https://www.tiktok.com/@randomnumbersports")
+        }
+      }
+    }
+    else{
+      if (mouseY >= 610 && mouseY <= 634){
+        if (mouseX >= 19 && mouseX <= 185){
+          window.open("http://127.0.0.1:5500/HTMLFiles/index.html")
+        }
+        else if (mouseX >=218 && mouseX <= 297){
+          window.open("https://www.tiktok.com/@randomnumbersports")
+        }
+      }
+    }
   }

@@ -74,7 +74,7 @@ function setup() {
     }
     else{
 
-      createCanvas(338,580)
+      createCanvas(338,680)
       horizontalScreen = false
 
       //Setting up the inputs and buttons used in the system
@@ -178,16 +178,37 @@ function setup() {
 
   function bottomBannerSetup(){
     fill(148,148,148)
-    textSize(60)
     textStyle(BOLD)
     noStroke()
 
     if (horizontalScreen == true){
+      textSize(30)
       rect(0,460,1240,580)
       fill(220,220,220)
       rect(0,480,1240,580,20)
       fill(0)
-      text("Hello", 500,560)  
+      text("Random Number Sports", 440,520)
+      textSize(24)
+      text("Tiktok",820,560)
+      textStyle(NORMAL)
+      text("Contact : randomnumbersports@gmail.com", 280,560)  
+      stroke(0)
+      line(824,564,894,564)
+    }
+    else{
+      textSize(26)
+      rect(0,580,338,680)
+      fill(220,220,220)
+      rect(0,600,338,600,20)
+      fill(0)
+      text("Home Screen", 20,630)
+      text("Tiktok",220,630)
+      textSize(16)
+      textStyle(NORMAL)
+      text("Contact : randomnumbersports@gmail.com", 10,660)  
+      stroke(0)
+      line(20,634,186,634)
+      line(220,634,296,634)
     }
     
     
@@ -737,8 +758,17 @@ function setup() {
           buttonGameAction(9)
         }
       }
+
+      //Code to link to the bottom banner tiktok
+      if (mouseX >=820 && mouseX <=894){
+        if (mouseY >= 542 && mouseY <= 565){
+          window.open("https://www.tiktok.com/@randomnumbersports")
+        }
+      }
     }
     else{
+      console.log(mouseX)
+      console.log(mouseY)
       if (mouseX >= 50 && mouseX <= 125){
         if (mouseY >= 50 && mouseY <= 98){
           buttonGameAction(1)
@@ -770,6 +800,15 @@ function setup() {
         }
         else if (mouseY >= 151 && mouseY <= 199){
           buttonGameAction(9)
+        }
+      }
+      
+      if (mouseY >= 610 && mouseY <= 634){
+        if (mouseX >= 19 && mouseX <= 185){
+          window.open("http://127.0.0.1:5500/HTMLFiles/index.html")
+        }
+        else if (mouseX >=218 && mouseX <= 297){
+          window.open("https://www.tiktok.com/@randomnumbersports")
         }
       }
     }
