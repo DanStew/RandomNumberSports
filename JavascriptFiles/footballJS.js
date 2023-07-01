@@ -802,7 +802,7 @@ function setup() {
           buttonGameAction(9)
         }
       }
-      
+
       if (mouseY >= 610 && mouseY <= 634){
         if (mouseX >= 19 && mouseX <= 185){
           window.open("http://127.0.0.1:5500/HTMLFiles/index.html")

@@ -41,6 +41,8 @@ body{
 }
 
 #RightHomeImage{
+    width : 130px;
+    height : 130px;
     margin-left: 10%;
     margin-top: 10px;
     margin-bottom: 20px;
