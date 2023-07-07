@@ -414,6 +414,7 @@ function setup() {
     inp3.hide()
     background(120,240,130)
     fill(255)
+    noStroke()
 
     if (horizontalScreen == true){
       textSize(160)
@@ -436,7 +437,7 @@ function setup() {
     background(255,0,0)
     counter = 0 
     inp3.hide()
-    
+    noStroke()
     fill(255)
 
     //Swapping turns
@@ -724,7 +725,7 @@ function setup() {
   }
 
   function mouseClicked(){
-    if (horizontalScreen == true){
+    if (horizontalScreen == true && screenMode == 1){
       if (mouseX >= 420 && mouseX <= 645){
         if (mouseY >= 120 && mouseY <= 191){
           buttonGameAction(1)
@@ -766,7 +767,7 @@ function setup() {
         }
       }
     }
-    else{
+    else if (screenMode==1){
       console.log(mouseX)
       console.log(mouseY)
       if (mouseX >= 50 && mouseX <= 125){
@@ -801,8 +802,17 @@ function setup() {
         else if (mouseY >= 151 && mouseY <= 199){
           buttonGameAction(9)
         }
+        if (mouseY >= 610 && mouseY <= 634){
+          if (mouseX >= 19 && mouseX <= 185){
+            window.open("http://127.0.0.1:5500/HTMLFiles/index.html")
+          }
+          else if (mouseX >=218 && mouseX <= 297){
+            window.open("https://www.tiktok.com/@randomnumbersports")
+          }
+        }
       }
-
+    }
+    if (horizontalScreen == false){
       if (mouseY >= 610 && mouseY <= 634){
         if (mouseX >= 19 && mouseX <= 185){
           window.open("http://127.0.0.1:5500/HTMLFiles/index.html")
